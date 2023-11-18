@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<AnchorPane prefHeight="545.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.GamePlaying">
+   <children>
+      <ImageView fitHeight="560.0" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@homepage.jpg" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d9d9" height="137.0" layoutY="411.0" stroke="#d9d9d9" strokeType="INSIDE" width="101.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d9d9" height="137.0" layoutX="169.0" layoutY="411.0" stroke="#d9d9d9" strokeType="INSIDE" width="101.0" />
+      <Ellipse fill="WHITE" layoutX="59.0" layoutY="389.0" radiusX="18.0" radiusY="22.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="WHITE" layoutX="59.0" layoutY="354.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Rectangle fx:id="stick" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="158.0" layoutX="77.0" layoutY="253.0" stroke="BLACK" strokeType="INSIDE" width="8.0" />
+   </children>
+</AnchorPane>
