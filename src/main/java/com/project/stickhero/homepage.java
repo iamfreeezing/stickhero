@@ -11,7 +11,7 @@ public class homepage {
     private Button playbutton;
 
     @FXML
-    private VBox randiom;
+    private VBox vboxhomepage;
 
     @FXML
     void onPlayButtonClick(ActionEvent event) {
@@ -19,6 +19,3 @@ public class homepage {
     }
 
 }
-
-
-
