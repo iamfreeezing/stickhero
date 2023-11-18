@@ -22,11 +22,7 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    public void setScene1(Stage stage, Scene scene) {
-        stage.setScene(scene);
-        this.currStage = stage;
-    }
-
+    
 
     public static void main(String[] args) {
         launch();

@@ -21,24 +21,8 @@ public class HelloController {
 
     @FXML
     void onPlayButtonClick(ActionEvent event) {
-
-        try {
-            // Load the FXML file for the new window
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("gameOver.fxml"));
-            Parent root = loader.load();
-
-            HelloApplication settingScene = new HelloApplication();
-
-            settingScene.setScene1(settingScene.currStage, new Scene(root));
-
-            settingScene.currStage.show();
-
-            // Show the new stage
-        } catch (
-                IOException e) {
-            e.printStackTrace();
         }
 
     }
 
-}
+
