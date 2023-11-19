@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,20 +9,40 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="548.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.gameOver">
+<AnchorPane prefHeight="548.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.GameOver">
    <children>
       <ImageView fitHeight="547.0" fitWidth="271.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@homepage.jpg" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="111.0" layoutX="32.0" layoutY="330.0" opacity="0.53" stroke="WHITE" strokeType="INSIDE" width="205.0" />
-      <Button fx:id="homebutton" layoutX="109.0" layoutY="385.0" mnemonicParsing="false" onAction="#onClickHome" text="HOME" />
-      <Button fx:id="playagainbutton" layoutX="93.0" layoutY="346.0" mnemonicParsing="false" onAction="#onClickPlayAgain" text="PLAY AGAIN" />
+      <Button fx:id="homebutton" layoutX="161.0" layoutY="372.0" mnemonicParsing="false" onAction="#onClickHome" text="HOME" />
+      <Button fx:id="playagainbutton" layoutX="52.0" layoutY="372.0" mnemonicParsing="false" onAction="#onClickPlayAgain" text="PLAY AGAIN" />
       <Text fill="WHITE" layoutX="13.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME OVER">
          <font>
             <Font name="Arial Black" size="36.0" />
          </font>
       </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="126.0" layoutX="52.0" layoutY="207.0" opacity="0.53" stroke="WHITE" strokeType="INSIDE" width="166.0" />
+      <Text layoutX="79.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" textAlignment="CENTER" wrappingWidth="108.01757431030273">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="79.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best" textAlignment="CENTER" wrappingWidth="108.01757431030273">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
+      </Text>
+      <Label fx:id="playerscore" layoutX="126.0" layoutY="236.0" text="0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="highscore" layoutX="126.0" layoutY="295.0" text="0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

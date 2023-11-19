@@ -9,9 +9,7 @@ import java.io.IOException;
 
 public class StickHero extends Application {
 
-    private int soundOn;
 
-    private int noAds;
 
     public Stage currStage;
     @Override
