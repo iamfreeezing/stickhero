@@ -9,9 +9,6 @@ import java.io.IOException;
 
 public class StickHero extends Application {
 
-
-
-    public Stage currStage;
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -19,11 +16,18 @@ public class StickHero extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Stick Hero!");
         stage.setScene(scene);
-        this.currStage = stage;
         stage.show();
     }
 
-    
+    public void setCurrentScene(Scene scene) {
+
+    }
+
+    public void showNewStage (Stage stage) {
+
+
+    }
+
 
     public static void main(String[] args) {
         launch();

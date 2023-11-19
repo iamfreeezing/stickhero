@@ -15,6 +15,14 @@ public class Data {
         this.highScore = highScore;
     }
 
+    public int getPermanentCherryCount() {
+        return permanentCherryCount;
+    }
+
+    public void setPermanentCherryCount(int permanentCherryCount) {
+        this.permanentCherryCount = permanentCherryCount;
+    }
+
     public void purchaseCherries() {
 
     }

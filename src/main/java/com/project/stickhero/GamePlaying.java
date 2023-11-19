@@ -16,4 +16,8 @@ public class GamePlaying {
     @FXML
     private Rectangle stick;
 
+    public void startGame () {      //creates new player and starts game
+
+    }
+
 }
