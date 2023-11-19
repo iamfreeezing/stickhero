@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="560.0" prefWidth="272.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.homepage">
+<AnchorPane prefHeight="560.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.homepage">
    <children>
-      <ImageView fitHeight="560.0" fitWidth="315.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="560.0" fitWidth="275.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@homepage.jpg" />
          </image>

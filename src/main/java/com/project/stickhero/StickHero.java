@@ -19,7 +19,7 @@ public class StickHero extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(StickHero.class.getResource("homepage.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Hello!");
+        stage.setTitle("Stick Hero!");
         stage.setScene(scene);
         this.currStage = stage;
         stage.show();
