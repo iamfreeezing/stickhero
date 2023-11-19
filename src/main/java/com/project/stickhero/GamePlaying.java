@@ -5,6 +5,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 
 public class GamePlaying {
+    private Player player;
 
     @FXML
     private AnchorPane Player;
