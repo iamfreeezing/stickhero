@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class Homepage {
-
     @FXML
     private Button Ads;
 
@@ -25,11 +24,6 @@ public class Homepage {
 
     @FXML
     void buyCherryButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onPlayButtonClick(ActionEvent event) {
 
     }
 
