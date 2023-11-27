@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="545.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.GamePlaying">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.GamePlaying">
    <children>
-      <ImageView fitHeight="560.0" fitWidth="270.0" pickOnBounds="true" preserveRatio="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="407.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+      <ImageView fitHeight="407.0" fitWidth="585.0" layoutX="8.0" layoutY="4.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@homepage.jpg" />
+            <Image url="@background.jpg" />
          </image>
+         <effect>
+            <GaussianBlur radius="1.59" />
+         </effect>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d9d9" height="137.0" layoutY="411.0" stroke="#d9d9d9" strokeType="INSIDE" width="101.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d9d9" height="137.0" layoutX="169.0" layoutY="411.0" stroke="#d9d9d9" strokeType="INSIDE" width="101.0" />
-      <AnchorPane fx:id="cherry" layoutX="128.0" layoutY="420.0" prefHeight="37.0" prefWidth="36.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#008c13" height="14.0" layoutX="15.0" layoutY="3.0" stroke="#028100" strokeType="INSIDE" width="7.0" />
-            <Circle fill="#ff1f1f" layoutX="15.0" layoutY="21.0" radius="8.0" stroke="#ff6969" strokeType="INSIDE" />
-            <Circle fill="#ff1f1f" layoutX="27.0" layoutY="21.0" radius="8.0" stroke="#ff6969" strokeType="INSIDE" />
-         </children>
-      </AnchorPane>
-      <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="33.0" layoutY="375.0" pickOnBounds="true" preserveRatio="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="137.0" layoutX="8.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="201.0" />
+      <ImageView fitHeight="63.0" fitWidth="109.0" layoutX="101.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@character.png" />
+            <Image url="@character_pink.png" />
          </image>
       </ImageView>
       <Line endX="100.0" startX="-100.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="137.0" layoutX="322.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="115.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="137.0" layoutX="530.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="63.0" />
    </children>
 </AnchorPane>
