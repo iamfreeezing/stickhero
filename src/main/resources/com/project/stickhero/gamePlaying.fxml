@@ -19,13 +19,11 @@
          </effect>
       </ImageView>
       <Rectangle fx:id="pillar" arcHeight="5.0" arcWidth="5.0" height="137.0" layoutX="8.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="201.0" />
-      <ImageView fitHeight="63.0" fitWidth="109.0" layoutX="101.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="slime" fitHeight="63.0" fitWidth="109.0" layoutX="120.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@character_pink.png" />
          </image>
       </ImageView>
       <Line endX="100.0" startX="-100.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="137.0" layoutX="322.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="115.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="137.0" layoutX="530.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="63.0" />
    </children>
 </AnchorPane>
