@@ -5,9 +5,6 @@ public class Stick {
 
     private int perfect;
 
-    public Stick(int length) {
-        this.length = length;
-    }
 
     public int getLength() {
         return length;
