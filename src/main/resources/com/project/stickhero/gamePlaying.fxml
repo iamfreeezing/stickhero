@@ -4,13 +4,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.StickHero">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="407.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <ImageView fitHeight="407.0" fitWidth="585.0" layoutX="8.0" layoutY="4.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@background.jpg" />
          </image>
@@ -18,12 +17,5 @@
             <GaussianBlur radius="1.59" />
          </effect>
       </ImageView>
-      <Rectangle fx:id="pillar" arcHeight="5.0" arcWidth="5.0" height="137.0" layoutX="8.0" layoutY="257.0" stroke="BLACK" strokeType="INSIDE" width="201.0" />
-      <ImageView fx:id="slime" fitHeight="63.0" fitWidth="109.0" layoutX="120.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@character_pink.png" />
-         </image>
-      </ImageView>
-      <Line endX="100.0" startX="-100.0" />
    </children>
 </AnchorPane>

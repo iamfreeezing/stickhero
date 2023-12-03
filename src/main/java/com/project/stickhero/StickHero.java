@@ -1,5 +1,7 @@
 package com.project.stickhero;
-import javafx.util.Duration;
+import javafx.animation.AnimationTimer;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Paint;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,91 +14,175 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
-import javafx.animation.*;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 import javafx.scene.image.ImageView;
-
 import java.util.*;
-public class StickHero extends Application {
+import java.util.concurrent.atomic.AtomicReference;
 
+//main controller file
+
+class rotateStick {
+    public static void rotateStickM() {
+        Rotate rotate = new Rotate();
+        StickHero.getStick().getTransforms().add(rotate);
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                rotate.setPivotX(StickHero.getStick().getX());
+                rotate.setPivotY(StickHero.getStick().getY() + StickHero.getStick().getHeight());
+
+                rotate.setAngle(rotate.getAngle() + 3);
+
+                if (rotate.getAngle()>=90) {
+                    stop();
+
+                }
+            }
+        };
+        timer.start();
+    }
+}
+
+class translateSlime {
+
+    public static void translateSlimeM() {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), StickHero.getSlime());
+        translateTransition.setByX(StickHero.getDistanceToTravel()); // Translate by 200 pixels in the X direction
+        translateTransition.setCycleCount(1); // Play animation once
+        translateTransition.setAutoReverse(false); // Don't reverse the animation
+
+        // Play the animation
+        translateTransition.play();
+    }
+}
+
+public class StickHero extends Application {
     private Stage stage;
     private static Scene scene;
-    private static Parent root;
 
+    private Pane appRoot = new Pane();          //these roots are only for gamePlaying page
+    private Pane gameRoot = new Pane();
+    private Pane uiRoot = new Pane();
+    private HashMap<KeyCode, Boolean> keys = new HashMap<>();
+
+    @FXML
+    private Rectangle firstPillar;
+    private Rectangle secondPillar;
+    @FXML
+    private static ImageView slime;
+    private static Rectangle stick;
+
+    private Double idealStickLength;
+    private static Double distanceToTravel;
+
+    public static ImageView getSlime() {
+        return slime;
+    }
+    public static Rectangle getStick() {
+        return stick;
+    }
+    public static Double getDistanceToTravel() {
+        return distanceToTravel;
+    }
+
+    //homepage buttons
     @FXML
     private Button Ads;
-
     @FXML
     private Button buyCherry;
-
     @FXML
     private Button playbutton;
-
-    @FXML
-    private Rectangle pillar;
-
-    @FXML
-    private ImageView slime;
-
     @FXML
     void adsButton(ActionEvent event) {
-
     }
-
     @FXML
     void buyCherryButton(ActionEvent event) {
-
     }
+    //homepage buttons over
+
 
     @FXML
     void onPlayButtonClick(ActionEvent event) throws IOException {
 
-        root = FXMLLoader.load(getClass().getResource("gamePlaying.fxml"));      //Parent is a type of root node
-        scene = new Scene(root);   //need to pass a root node while creating any scene
+        Paint black = Color.BLACK;
+        Paint red = Color.RED;
+
+        Parent FXMLRoot = FXMLLoader.load(getClass().getResource("gamePlaying.fxml"));
+
+        //FXMLRoot is 600x400
+
+        appRoot.getChildren().add(FXMLRoot);
+        appRoot.getChildren().add(gameRoot);
+        appRoot.getChildren().add(uiRoot);
+
+        scene = new Scene(appRoot, 600, 400);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
 
-        Rectangle stick = new Rectangle(5, 0, Color.BLACK);
-
-        Rectangle pil = new Rectangle(8, 257, 200, 140);
-        pil.setFill(Color.BLACK); // Set fill color
-        pil.setStroke(Color.BLACK);
-        ((Pane) root).getChildren().add(pil);
-
-        stick.setLayoutX(pil.getLayoutX()+200);
-        ((Pane) root).getChildren().add(stick);
+        firstPillar = new Rectangle();
+        firstPillar.setFill(black);
+        firstPillar.setHeight(150);
+        firstPillar.setWidth(150);
+        gameRoot.getChildren().add(firstPillar);
+        firstPillar.setLayoutX(0);          //LayoutX manages the position within a pane. Top left corner's X.
+        firstPillar.setLayoutY(250);
 
         Random random = new Random();
-        double gen=(double)random.nextInt(10,200);
-        double gen2=(double)random.nextInt(10,200);
-        Rectangle pil2= new Rectangle(gen+pil.getLayoutX()+pil.getWidth(), pil.getY(), gen2, pil.getHeight());
-        pil2.setFill(Color.BLACK); // Set fill color
-        pil2.setStroke(Color.BLACK);
-        ((Pane) root).getChildren().add(pil2);
 
+        secondPillar = new Rectangle();
+        secondPillar.setFill(black);
+        secondPillar.setHeight(150);
+        secondPillar.setWidth(random.nextDouble()*300 + 100);  //nextDouble returns a number between 0.0 and 1.0 (exclusive)
+        gameRoot.getChildren().add(secondPillar);
+        secondPillar.setLayoutX(200);
+        secondPillar.setLayoutY(250);
 
-        final double[] stickHeight = {0.0};
-        AtomicReference<Double> yCoordinateStick = new AtomicReference<>((double) pil.getY());
+        Image characterImage = new Image("file:./character_pink.png");
+        slime = new ImageView(characterImage);
+        slime.setFitHeight(50);
+        slime.setFitWidth(50);
+        slime.setLayoutX(firstPillar.getWidth()-slime.getFitWidth());
+        slime.setLayoutY(210);
+        gameRoot.getChildren().add(slime);
 
-        scene.setOnKeyPressed(event1 -> {
-            if (event1.getCode() == KeyCode.UP) {
-                stickHeight[0] +=1;
+        stick = new Rectangle();
+        stick.setWidth(5);
+        stick.setHeight(0);
+        stick.setFill(red);
+        gameRoot.getChildren().add(stick);
+        stick.setLayoutX(firstPillar.getLayoutX()+firstPillar.getWidth());
+        stick.setLayoutY(250-stick.getHeight());
+        AtomicReference<Integer> changingHeight = new AtomicReference<>(0); // Because can't change normal variables inside a lambda
+        AtomicReference<Integer> changingY = new AtomicReference<>(250); // Because can't change normal variables inside a lambda
 
-                yCoordinateStick.updateAndGet(v -> new Double((double) (v - 1)));
-                stick.setLayoutY(yCoordinateStick.get());
-                stick.setHeight(stickHeight[0]);
-
+        scene.setOnKeyPressed(eventMain -> {
+            if (eventMain.getCode() == KeyCode.SPACE) {
+                keys.put(KeyCode.SPACE, true);
+                changingHeight.updateAndGet(height -> height + 2);
+                stick.setHeight(changingHeight.get());
+                changingY.updateAndGet(y -> y - 2);
+                stick.setLayoutY(changingY.get());
             }
         });
 
+        scene.setOnKeyReleased(eventMain -> {
+            if (eventMain.getCode() == KeyCode.SPACE && keys.get(KeyCode.SPACE)) {
+                keys.put(KeyCode.SPACE, false);
+                idealStickLength = secondPillar.getLayoutX() - firstPillar.getWidth();
+                distanceToTravel = idealStickLength + secondPillar.getWidth();
 
-//
-
-
+                rotateStick.rotateStickM();
+                    if (stick.getHeight()>= idealStickLength) {
+                        translateSlime.translateSlimeM();
+                        System.out.println("true");
+                    }
+            }
+        });
 
     }
 
@@ -113,6 +199,7 @@ public class StickHero extends Application {
     }
 
     public void showNewStage (Stage stage) {
+
 
 
     }
