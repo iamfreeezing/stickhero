@@ -149,13 +149,16 @@ public class StickHero extends Application {
 
     public static Rectangle generateSecondPillar() {
 
+        double maxSize = 2*(1980/8);
+
         secondPillar = new Rectangle();
         secondPillar.setFill(Color.BLACK);
-        secondPillar.setHeight(150);
-        secondPillar.setWidth(random.nextDouble()*100 + 100);  //nextDouble returns a number between 0.0 and 1.0 (exclusive)
-        secondPillar.setLayoutX(200);
-        secondPillar.setLayoutY(250);
+        secondPillar.setHeight(firstPillar.getHeight());
+        secondPillar.setWidth(random.nextDouble()*(maxSize-150) + 150);  //nextDouble returns a number between 0.0 and 1.0 (exclusive)
+        secondPillar.setLayoutX(firstPillar.getWidth() + random.nextDouble()*250 + 100);
+        secondPillar.setLayoutY(firstPillar.getLayoutY());
         secondPillar.setFill(Color.BLACK);
+
         return secondPillar;
     }
 
@@ -169,71 +172,61 @@ public class StickHero extends Application {
 
         //FXMLRoot is 600x400
 
-        Pane backgroundPane = new Pane();
         Image backgroundImage = new Image("file:./background_2.jpg");
         ImageView backgroundImageView = new ImageView(backgroundImage);
-        backgroundImageView.setFitHeight(400);
-        backgroundImageView.setFitWidth(600);
+        backgroundImageView.setFitHeight(1080);
+        backgroundImageView.setFitWidth(1920);
+
         appRoot.getChildren().add(backgroundImageView);
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
 
-
-
-        scene = new Scene(appRoot, 600, 400);
+        scene = new Scene(appRoot, 1920, 1080);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
 
         appRoot.prefWidthProperty().bind(scene.widthProperty());
+        appRoot.prefHeightProperty().bind(scene.heightProperty());
 
         firstPillar = new Rectangle();
         firstPillar.setFill(black);
-        firstPillar.setHeight(150);
-        firstPillar.setWidth(150);
-        firstPillar.setFill(Color.BLACK); // Set the rectangle fill to transparent
-
-
+        firstPillar.setHeight(1080/2);
+        firstPillar.setWidth(1920/8);
+        firstPillar.setFill(Color.BLACK);
         gameRoot.getChildren().add(firstPillar);
-        //gameRoot.getChildren().add(rockbg);
-        firstPillar.setLayoutX(0);          //LayoutX manages the position within a pane. Top left corner's X.
-        firstPillar.setLayoutY(250);
-        //rockbg.setLayoutX(0);          //LayoutX manages the position within a pane. Top left corner's X.
-        //rockbg.setLayoutY(250);
+        firstPillar.setLayoutX(0);
+        firstPillar.setLayoutY(backgroundImageView.getFitHeight()-firstPillar.getHeight());
 
         gameRoot.getChildren().add(generateSecondPillar());
-
-
-
-        // Set the image as the fill of the rectangle
-
 
         Image characterImage = new Image("file:./character_pink.png");
         slime = new ImageView(characterImage);
         slime.setFitHeight(50);
         slime.setFitWidth(50);
         slime.setLayoutX(firstPillar.getWidth()-slime.getFitWidth());
-        slime.setLayoutY(210);
+        slime.setLayoutY(firstPillar.getLayoutY()-slime.getFitHeight()+9);          //scaling factor
         gameRoot.getChildren().add(slime);
 
         stick = new Rectangle();
         stick.setWidth(5);
         stick.setHeight(0);
         stick.setFill(Color.BLACK);
-        stick.setLayoutX(firstPillar.getLayoutX()+firstPillar.getWidth());
+        stick.setLayoutX(firstPillar.getLayoutX()+firstPillar.getWidth()-stick.getWidth());
         gameRoot.getChildren().add(stick);
         stick.toFront();
-        stick.setLayoutY(250-stick.getHeight());
+        stick.setLayoutY(firstPillar.getLayoutY());
         AtomicReference<Integer> changingHeight = new AtomicReference<>(0); // Because can't change normal variables inside a lambda
-        AtomicReference<Integer> changingY = new AtomicReference<>(250); // Because can't change normal variables inside a lambda
+        AtomicReference<Integer> changingY = new AtomicReference<>((int)firstPillar.getLayoutY()); // Because can't change normal variables inside a lambda
         AtomicBoolean tempSpacePressed = new AtomicBoolean(false);
         scene.setOnKeyPressed(eventMain -> {
             if (eventMain.getCode() == KeyCode.SPACE && !isSpacePressed) {
                 tempSpacePressed.set(true);
                 stick.setLayoutX(firstPillar.getWidth());
-                changingHeight.updateAndGet(height -> height + 3);
+                changingHeight.updateAndGet(height -> height + 6);
                 stick.setHeight(changingHeight.get());
-                changingY.updateAndGet(y -> y - 3);
+                changingY.updateAndGet(y -> y - 6);
                 stick.setLayoutY(changingY.get());
                 stick.toFront();
             }
@@ -244,7 +237,7 @@ public class StickHero extends Application {
                 isSpacePressed = true;
                 tempSpacePressed.set(false);
                 changingHeight.updateAndGet(height -> 0);
-                changingY.updateAndGet(y -> 250);
+                changingY.updateAndGet(y -> (int)firstPillar.getLayoutY());
                 idealStickLength = secondPillar.getLayoutX() - firstPillar.getWidth();
                 distanceToTravel = idealStickLength + secondPillar.getWidth();
 
