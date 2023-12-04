@@ -1,6 +1,7 @@
 package com.project.stickhero;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -23,6 +24,8 @@ import javafx.scene.image.ImageView;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import javafx.scene.layout.StackPane;
+import javafx.animation.*;
 
 //main controller file
 
@@ -65,6 +68,7 @@ class translateSlime {
                 StickHero.setIsSpacePressed(false);
             }
             else {
+                StickHero.getSlime().toFront();
                 TranslateTransition translateTransitionFall = new TranslateTransition(Duration.seconds(1), StickHero.getSlime());
                 translateTransitionFall.setByY(150); // Translate by 200 pixels in the X direction
                 translateTransitionFall.setCycleCount(1); // Play animation once
@@ -99,6 +103,8 @@ public class StickHero extends Application {
     private static Double distanceToTravel;
     private static boolean translateDone;
     private static Random random = new Random();
+
+    private static Image pillarBackground = new Image("file:./rockbg_7.jpg");
 
     public static ImageView getSlime() {return slime;}
     public static boolean getTranslateDone() {
@@ -143,12 +149,14 @@ public class StickHero extends Application {
     }
 
     public static Rectangle generateSecondPillar() {
+
         secondPillar = new Rectangle();
         secondPillar.setFill(Color.BLACK);
         secondPillar.setHeight(150);
         secondPillar.setWidth(random.nextDouble()*100 + 100);  //nextDouble returns a number between 0.0 and 1.0 (exclusive)
         secondPillar.setLayoutX(200);
         secondPillar.setLayoutY(250);
+        secondPillar.setFill(Color.BLACK);
         return secondPillar;
     }
 
@@ -162,7 +170,12 @@ public class StickHero extends Application {
 
         //FXMLRoot is 600x400
 
-        appRoot.getChildren().add(FXMLRoot);
+        Pane backgroundPane = new Pane();
+        Image backgroundImage = new Image("file:./background_2.jpg");
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.setFitHeight(400);
+        backgroundImageView.setFitWidth(600);
+        appRoot.getChildren().add(backgroundImageView);
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
 
@@ -171,15 +184,32 @@ public class StickHero extends Application {
         stage.setScene(scene);
         stage.show();
 
+         // Replace with your image path
+
+        // Create an ImageView with the image
+//        ImageView rockbg = new ImageView(backgroundImage);
+//        rockbg.setFitWidth(600);
+//        rockbg.setFitHeight(400);
+
         firstPillar = new Rectangle();
         firstPillar.setFill(black);
         firstPillar.setHeight(150);
         firstPillar.setWidth(150);
+        firstPillar.setFill(Color.BLACK); // Set the rectangle fill to transparent
+
+
         gameRoot.getChildren().add(firstPillar);
+        //gameRoot.getChildren().add(rockbg);
         firstPillar.setLayoutX(0);          //LayoutX manages the position within a pane. Top left corner's X.
         firstPillar.setLayoutY(250);
+        //rockbg.setLayoutX(0);          //LayoutX manages the position within a pane. Top left corner's X.
+        //rockbg.setLayoutY(250);
 
         gameRoot.getChildren().add(generateSecondPillar());
+
+
+
+        // Set the image as the fill of the rectangle
 
 
         Image characterImage = new Image("file:./character_pink.png");
@@ -193,7 +223,7 @@ public class StickHero extends Application {
         stick = new Rectangle();
         stick.setWidth(5);
         stick.setHeight(0);
-        stick.setFill(red);
+        stick.setFill(Color.BLACK);
         stick.setLayoutX(firstPillar.getLayoutX()+firstPillar.getWidth());
         gameRoot.getChildren().add(stick);
         stick.setLayoutY(250-stick.getHeight());
@@ -208,6 +238,7 @@ public class StickHero extends Application {
                 stick.setHeight(changingHeight.get());
                 changingY.updateAndGet(y -> y - 3);
                 stick.setLayoutY(changingY.get());
+                stick.toFront();
             }
         });
 

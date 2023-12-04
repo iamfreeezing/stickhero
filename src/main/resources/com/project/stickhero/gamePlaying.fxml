@@ -11,7 +11,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
       <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@background.jpg" />
+            <Image url="@../../../../../../background_2.jpg" />
          </image>
          <effect>
             <GaussianBlur radius="1.59" />
