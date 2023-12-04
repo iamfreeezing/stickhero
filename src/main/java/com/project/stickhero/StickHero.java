@@ -24,7 +24,7 @@ import javafx.scene.image.ImageView;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.animation.*;
 
 //main controller file
@@ -55,10 +55,9 @@ class translateSlime {
 
     public static void translateSlimeM(Double distance, boolean success) {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), StickHero.getSlime());
-        translateTransition.setByX(distance); // Translate by 200 pixels in the X direction
-        translateTransition.setCycleCount(1); // Play animation once
-        translateTransition.setAutoReverse(false); // Don't reverse the animation
-        // Play the animation
+        translateTransition.setByX(distance);
+        translateTransition.setCycleCount(1);
+        translateTransition.setAutoReverse(false);
         translateTransition.play();
 
         translateTransition.setOnFinished(event -> {
@@ -70,10 +69,10 @@ class translateSlime {
             else {
                 StickHero.getSlime().toFront();
                 TranslateTransition translateTransitionFall = new TranslateTransition(Duration.seconds(1), StickHero.getSlime());
-                translateTransitionFall.setByY(150); // Translate by 200 pixels in the X direction
-                translateTransitionFall.setCycleCount(1); // Play animation once
-                translateTransitionFall.setAutoReverse(false); // Don't reverse the animation
-                // Play the animation
+                translateTransitionFall.setByY(150);
+                translateTransitionFall.setCycleCount(1);
+                translateTransitionFall.setAutoReverse(false);
+
                 translateTransitionFall.play();
                 translateTransitionFall.setOnFinished(eventNew -> {
                     StickHero.getSlime().setVisible(false);
@@ -179,17 +178,14 @@ public class StickHero extends Application {
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
 
+
+
         scene = new Scene(appRoot, 600, 400);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
 
-         // Replace with your image path
-
-        // Create an ImageView with the image
-//        ImageView rockbg = new ImageView(backgroundImage);
-//        rockbg.setFitWidth(600);
-//        rockbg.setFitHeight(400);
+        appRoot.prefWidthProperty().bind(scene.widthProperty());
 
         firstPillar = new Rectangle();
         firstPillar.setFill(black);
@@ -226,6 +222,7 @@ public class StickHero extends Application {
         stick.setFill(Color.BLACK);
         stick.setLayoutX(firstPillar.getLayoutX()+firstPillar.getWidth());
         gameRoot.getChildren().add(stick);
+        stick.toFront();
         stick.setLayoutY(250-stick.getHeight());
         AtomicReference<Integer> changingHeight = new AtomicReference<>(0); // Because can't change normal variables inside a lambda
         AtomicReference<Integer> changingY = new AtomicReference<>(250); // Because can't change normal variables inside a lambda
