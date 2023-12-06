@@ -32,19 +32,15 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Text fill="WHITE" layoutX="496.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="STICK">
-         <font>
-            <Font name="Cambria" size="150.0" />
-         </font>
-      </Text>
       <Button fx:id="Ads" blendMode="HARD_LIGHT" defaultButton="true" layoutX="300.0" layoutY="933.0" mnemonicParsing="false" onAction="#adsButton" prefHeight="46.0" prefWidth="128.0" text="No Ads" textOverrun="CLIP">
          <effect>
             <Reflection fraction="0.76" topOpacity="0.42" />
          </effect>
          <font>
             <Font size="24.0" />
-         </font></Button>
-      <Button fx:id="buyCherry" blendMode="HARD_LIGHT" layoutX="1656.0" layoutY="933.0" mnemonicParsing="false" onAction="#buyCherryButton" prefHeight="66.0" prefWidth="173.0" text="Buy Cherry">
+         </font>
+      </Button>
+      <Button fx:id="buyCherry" blendMode="HARD_LIGHT" defaultButton="true" layoutX="1656.0" layoutY="933.0" mnemonicParsing="false" onAction="#buyCherryButton" prefHeight="66.0" prefWidth="173.0" text="Buy Cherry">
          <effect>
             <Reflection />
          </effect>
@@ -59,6 +55,11 @@
             <Font size="24.0" />
          </font>
       </Button>
+      <Text fill="WHITE" layoutX="496.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="STICK">
+         <font>
+            <Font name="Cambria" size="150.0" />
+         </font>
+      </Text>
       <Text fill="WHITE" layoutX="1710.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© Stock Photos by Vecteezy">
          <font>
             <Font name="Arial" size="16.0" />

@@ -29,59 +29,6 @@ import javafx.animation.*;
 
 //main controller file
 
-class rotateStick {
-    public static void rotateStickM() {
-        Rotate rotate = new Rotate();
-        StickHero.getStick().getTransforms().add(rotate);
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                rotate.setPivotX(StickHero.getStick().getX());
-                rotate.setPivotY(StickHero.getStick().getY() + StickHero.getStick().getHeight());
-
-                rotate.setAngle(rotate.getAngle() + 3);
-
-                if (rotate.getAngle()>=90) {
-                    stop();
-
-                }
-            }
-        };
-        timer.start();
-    }
-}
-
-class translateSlime {
-
-    public static void translateSlimeM(Double distance, boolean success) {
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), StickHero.getSlime());
-        translateTransition.setByX(distance);
-        translateTransition.setCycleCount(1);
-        translateTransition.setAutoReverse(false);
-        translateTransition.play();
-
-        translateTransition.setOnFinished(event -> {
-            if (success) {
-                StickHero.getStick().getTransforms().clear();
-                StickHero.onSlimeTranslationDone();
-                StickHero.setIsSpacePressed(false);
-            }
-            else {
-                StickHero.getSlime().toFront();
-                TranslateTransition translateTransitionFall = new TranslateTransition(Duration.seconds(1), StickHero.getSlime());
-                translateTransitionFall.setByY(150);
-                translateTransitionFall.setCycleCount(1);
-                translateTransitionFall.setAutoReverse(false);
-
-                translateTransitionFall.play();
-                translateTransitionFall.setOnFinished(eventNew -> {
-                    StickHero.getSlime().setVisible(false);
-                });
-            }
-        });
-    }
-}
-
 public class StickHero extends Application {
     private Stage stage;
     private static Scene scene;
@@ -224,9 +171,9 @@ public class StickHero extends Application {
             if (eventMain.getCode() == KeyCode.SPACE && !isSpacePressed) {
                 tempSpacePressed.set(true);
                 stick.setLayoutX(firstPillar.getWidth());
-                changingHeight.updateAndGet(height -> height + 6);
+                changingHeight.updateAndGet(height -> height + 7);
                 stick.setHeight(changingHeight.get());
-                changingY.updateAndGet(y -> y - 6);
+                changingY.updateAndGet(y -> y - 7);
                 stick.setLayoutY(changingY.get());
                 stick.toFront();
             }
@@ -241,13 +188,13 @@ public class StickHero extends Application {
                 idealStickLength = secondPillar.getLayoutX() - firstPillar.getWidth();
                 distanceToTravel = idealStickLength + secondPillar.getWidth();
 
-                rotateStick.rotateStickM();
+                Stick.rotateStickM();
                     if (stick.getHeight()>= idealStickLength) {
-                        translateSlime.translateSlimeM(getDistanceToTravel(), true);
+                        Player.translateSlimeM(getDistanceToTravel(), true);
                     }
                     else {
                         distanceToTravel = stick.getHeight();
-                        translateSlime.translateSlimeM(distanceToTravel+slime.getFitWidth(), false);
+                        Player.translateSlimeM(distanceToTravel+slime.getFitWidth(), false);
                     }
             }
         });
@@ -263,6 +210,7 @@ public class StickHero extends Application {
         Scene scene = new Scene(root);
         stage.setTitle("Stick Hero");
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
 
     }

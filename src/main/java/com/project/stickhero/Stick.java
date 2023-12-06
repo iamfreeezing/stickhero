@@ -1,27 +1,28 @@
 package com.project.stickhero;
 
+import javafx.animation.AnimationTimer;
+import javafx.scene.transform.Rotate;
+
 public class Stick {
-    private int length;
+        public static void rotateStickM() {
+            Rotate rotate = new Rotate();
+            StickHero.getStick().getTransforms().add(rotate);
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    rotate.setPivotX(StickHero.getStick().getX());
+                    rotate.setPivotY(StickHero.getStick().getY() + StickHero.getStick().getHeight());
 
-    private int perfect;
+                    rotate.setAngle(rotate.getAngle() + 3);
 
+                    if (rotate.getAngle()>=90) {
+                        stop();
 
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public void isPerfectStick(int length) {        //equal to 1 if the stick is of perfect length (i.e. +1 point)
-
-        //if condition true, this.perfect = 1;
-        //else 0
-
-    }
-    public int getPerfect() {
-        return perfect;
-    }
-
+                    }
+                }
+            };
+            timer.start();
+        }
 }
+
+
