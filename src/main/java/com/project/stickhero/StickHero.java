@@ -1,7 +1,6 @@
 package com.project.stickhero;
-import javafx.animation.AnimationTimer;
+import javafx.event.Event;
 import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -15,7 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
@@ -24,14 +23,16 @@ import javafx.scene.image.ImageView;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import javafx.scene.layout.*;
+
 import javafx.animation.*;
+
+import static com.project.stickhero.Player.onSlimeTranslationDone;
 
 //main controller file
 
 public class StickHero extends Application {
     private Stage stage;
-    private static Scene scene;
+    public static Scene scene;
 
     private Pane appRoot = new Pane();          //these roots are only for gamePlaying page
     private static Pane gameRoot = new Pane();
@@ -42,16 +43,18 @@ public class StickHero extends Application {
     private static Rectangle firstPillar;
     private static Rectangle endPillar;
     private static Rectangle secondPillar;
+    public static AtomicBoolean isTranslating = new AtomicBoolean(false);
 
     @FXML
     private static ImageView slime;
     private static ImageView slimeFriend;
     private static Rectangle stick;
-
     private Double idealStickLength;
     private static Double distanceToTravel;
     private static boolean translateDone;
     private static Random random = new Random();
+
+
 
     private static ImageView Heart;
 
@@ -70,9 +73,6 @@ public class StickHero extends Application {
     void buyCherryButton(ActionEvent event) {
     }
     //homepage buttons over
-
-
-
 
 
     @FXML
@@ -155,6 +155,8 @@ public class StickHero extends Application {
         AtomicReference<Integer> changingHeight = new AtomicReference<>(0); // Because can't change normal variables inside a lambda
         AtomicReference<Integer> changingY = new AtomicReference<>((int)firstPillar.getLayoutY()); // Because can't change normal variables inside a lambda
         AtomicBoolean tempSpacePressed = new AtomicBoolean(false);
+        AtomicBoolean isSPressed = new AtomicBoolean(false);
+
         scene.setOnKeyPressed(eventMain -> {
             if (eventMain.getCode() == KeyCode.SPACE && !isSpacePressed) {
                 tempSpacePressed.set(true);
@@ -165,9 +167,16 @@ public class StickHero extends Application {
                 stick.setLayoutY(changingY.get());
                 stick.toFront();
             }
+                if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
+                    isSPressed.set(true);
+                    StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 10);
+                    StickHero.getSlime().getTransforms().add(new Scale(1, -1)); // Adjust for your slime object
+                }
+
         });
 
         scene.setOnKeyReleased(eventMain -> {
+
             if (eventMain.getCode() == KeyCode.SPACE && tempSpacePressed.get()) {
                 isSpacePressed = true;
                 tempSpacePressed.set(false);
@@ -177,14 +186,23 @@ public class StickHero extends Application {
                 distanceToTravel = idealStickLength + secondPillar.getWidth();
 
                 Stick.rotateStickM();
+
                     if (stick.getHeight()>= idealStickLength) {
-                        Player.translateSlimeM(getDistanceToTravel(), true);
+                        Player.translateSlimeM(distanceToTravel, true);
                     }
                     else {
                         distanceToTravel = stick.getHeight();
                         Player.translateSlimeM(distanceToTravel+slime.getFitWidth(), false);
                     }
             }
+
+            if (eventMain.getCode() == KeyCode.S && isSPressed.get() && isTranslating.get()) {
+                isSPressed.set(false);
+                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() - (2 * StickHero.getSlime().getFitHeight() - 10));
+                StickHero.getSlime().getTransforms().removeIf(transform -> transform instanceof Scale);
+            }
+
+
         });
 
 
@@ -259,4 +277,5 @@ public class StickHero extends Application {
     public static void setHeart(ImageView heart) {
         Heart = heart;
     }
+
 }

@@ -10,8 +10,6 @@ public class Data {
 
     private static int highScore=0;
 
-
-
     private static int heartScore=0;
 
     public static int heartCounter=0;
@@ -21,8 +19,6 @@ public class Data {
     }
 
     public static ImageView generateHeart(){
-
-
 
             StickHero.setHeart(new ImageView(new Image("file:./heart.png")));;
             StickHero.getHeart().setLayoutX((StickHero.getSecondPillar().getLayoutX()+StickHero.getFirstPillar().getWidth())/2 - 20);
@@ -36,7 +32,6 @@ public class Data {
             heartMove.setAutoReverse(true);
             heartMove.play();
             return StickHero.getHeart();
-
 
     }
 
