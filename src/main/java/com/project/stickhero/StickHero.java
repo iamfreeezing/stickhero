@@ -40,9 +40,12 @@ public class StickHero extends Application {
 
     @FXML
     private static Rectangle firstPillar;
+    private static Rectangle endPillar;
     private static Rectangle secondPillar;
+
     @FXML
     private static ImageView slime;
+    private static ImageView slimeFriend;
     private static Rectangle stick;
 
     private Double idealStickLength;
@@ -50,24 +53,7 @@ public class StickHero extends Application {
     private static boolean translateDone;
     private static Random random = new Random();
 
-    private static Image pillarBackground = new Image("file:./rockbg_7.jpg");
-
-    public static ImageView getSlime() {return slime;}
-    public static boolean getTranslateDone() {
-        return translateDone;
-    }
-    public static Rectangle getStick() {
-        return stick;
-    }
-    public static Double getDistanceToTravel() {
-        return distanceToTravel;
-    }
-    public static boolean getIsSpacePressed() {
-        return isSpacePressed;
-    }
-    public static void setIsSpacePressed(boolean a) {
-        isSpacePressed = a;
-    }
+    private static ImageView Heart;
 
 
     //homepage buttons
@@ -85,29 +71,9 @@ public class StickHero extends Application {
     }
     //homepage buttons over
 
-    public static void onSlimeTranslationDone() {
-        secondPillar.setTranslateX(-secondPillar.getLayoutX());
-        firstPillar.setVisible(false);
-        firstPillar = secondPillar;
-        stick.setHeight(0);
-        slime.setTranslateX(-slime.getLayoutX()+secondPillar.getWidth()-slime.getFitWidth());
-        gameRoot.getChildren().add(generateSecondPillar());
-    }
 
-    public static Rectangle generateSecondPillar() {
 
-        double maxSize = 2*(1980/8);
 
-        secondPillar = new Rectangle();
-        secondPillar.setFill(Color.BLACK);
-        secondPillar.setHeight(firstPillar.getHeight());
-        secondPillar.setWidth(random.nextDouble()*(maxSize-150) + 150);  //nextDouble returns a number between 0.0 and 1.0 (exclusive)
-        secondPillar.setLayoutX(firstPillar.getWidth() + random.nextDouble()*250 + 100);
-        secondPillar.setLayoutY(firstPillar.getLayoutY());
-        secondPillar.setFill(Color.BLACK);
-
-        return secondPillar;
-    }
 
     @FXML
     void onPlayButtonClick(ActionEvent event) throws IOException {
@@ -138,7 +104,6 @@ public class StickHero extends Application {
         appRoot.prefHeightProperty().bind(scene.heightProperty());
 
         firstPillar = new Rectangle();
-        firstPillar.setFill(black);
         firstPillar.setHeight(1080/2);
         firstPillar.setWidth(1920/8);
         firstPillar.setFill(Color.BLACK);
@@ -146,15 +111,38 @@ public class StickHero extends Application {
         firstPillar.setLayoutX(0);
         firstPillar.setLayoutY(backgroundImageView.getFitHeight()-firstPillar.getHeight());
 
-        gameRoot.getChildren().add(generateSecondPillar());
+        gameRoot.getChildren().add(Pillar.generateSecondPillar());
 
-        Image characterImage = new Image("file:./character_pink.png");
+        endPillar= new Rectangle();
+        endPillar.setHeight(1080/2);
+        endPillar.setWidth(1920/8.5);
+        endPillar.setFill(Color.BLACK);
+        gameRoot.getChildren().add(endPillar);
+        endPillar.setLayoutX(1920-1920/8.5);
+        endPillar.setLayoutY(backgroundImageView.getFitHeight()-firstPillar.getHeight());
+
+
+        Image characterImage = new Image("file:./character_green.png");
+
         slime = new ImageView(characterImage);
         slime.setFitHeight(50);
         slime.setFitWidth(50);
         slime.setLayoutX(firstPillar.getWidth()-slime.getFitWidth());
         slime.setLayoutY(firstPillar.getLayoutY()-slime.getFitHeight()+9);          //scaling factor
         gameRoot.getChildren().add(slime);
+
+        slimeFriend=new ImageView(new Image("file:./character_pink.png"));
+        slimeFriend.setFitWidth(50);
+        slimeFriend.setFitHeight(50);
+        slimeFriend.setLayoutY(endPillar.getLayoutY()-slimeFriend.getFitHeight()+9);
+        slimeFriend.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2);
+        gameRoot.getChildren().add(slimeFriend);
+
+        TranslateTransition slimeFriendjump = new TranslateTransition(Duration.seconds(0.5), slimeFriend);
+        slimeFriendjump.setByY(-50);
+        slimeFriendjump.setCycleCount(Transition.INDEFINITE);
+        slimeFriendjump.setAutoReverse(true);
+        slimeFriendjump.play();
 
         stick = new Rectangle();
         stick.setWidth(5);
@@ -171,9 +159,9 @@ public class StickHero extends Application {
             if (eventMain.getCode() == KeyCode.SPACE && !isSpacePressed) {
                 tempSpacePressed.set(true);
                 stick.setLayoutX(firstPillar.getWidth());
-                changingHeight.updateAndGet(height -> height + 7);
+                changingHeight.updateAndGet(height -> height + 12);
                 stick.setHeight(changingHeight.get());
-                changingY.updateAndGet(y -> y - 7);
+                changingY.updateAndGet(y -> y - 12);
                 stick.setLayoutY(changingY.get());
                 stick.toFront();
             }
@@ -217,5 +205,58 @@ public class StickHero extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+
+    public static Rectangle getSecondPillar() {
+        return secondPillar;}
+
+    public static Pane getGameRoot() {
+        return gameRoot;}
+
+    public static void setFirstPillar(Rectangle fp) {
+        firstPillar = fp;
+    }
+    public static void setSecondPillar(Rectangle sp) {
+        secondPillar = sp;
+    }
+
+    public static Random getRandom() {
+        return random;
+    }
+
+    public static Rectangle getFirstPillar() {
+        return firstPillar;
+    }
+
+
+    public static ImageView getSlime() {return slime;}
+
+    public static boolean getTranslateDone() {
+        return translateDone;
+    }
+
+    public static Rectangle getStick() {
+        return stick;
+    }
+
+    public static Double getDistanceToTravel() {
+        return distanceToTravel;
+    }
+
+    public static boolean getIsSpacePressed() {
+        return isSpacePressed;
+    }
+
+    public static void setIsSpacePressed(boolean a) {
+        isSpacePressed = a;
+    }
+
+    public static ImageView getHeart() {
+        return Heart;
+    }
+
+    public static void setHeart(ImageView heart) {
+        Heart = heart;
     }
 }
