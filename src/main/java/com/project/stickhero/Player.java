@@ -1,13 +1,15 @@
 package com.project.stickhero;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.nio.channels.Pipe;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javafx.scene.layout.Pane;
 
 
 
@@ -34,10 +37,64 @@ public class Player implements Runnable{
     }
 
     public static void whenDead() throws IOException {
+        Pane mainRoot= new Pane();
+
+        Rectangle blackScreen= new Rectangle();
+        blackScreen.setHeight(1080);
+        blackScreen.setWidth(1920);
+        blackScreen.setFill(Color.BLACK);
+//        blackScreen.setOpacity(0);
+        mainRoot.getChildren().add(blackScreen);
+
+        Text text= new Text("Oops......"+"\n"+"\n"+"\n"+"You'll get there, soon.");
+        text.setFont(new Font("Arial",18));
+        text.setFill(Color.WHITE);
+        text.setLayoutX(830);
+        text.setLayoutY(440);
+        text.setOpacity(0);
+        mainRoot.getChildren().add(text);
+
+        //FadeTransition fadeInBG= new FadeTransition(Duration.seconds(2),blackScreen);
+        FadeTransition fadeInText= new FadeTransition(Duration.seconds(1),text);
+        FadeTransition fadeOutText= new FadeTransition(Duration.seconds(1),text);
+        FadeTransition fadeBG= new FadeTransition(Duration.seconds(1),blackScreen);
+
+        PauseTransition pauseBlackScreen= new PauseTransition(Duration.seconds(2));
+        PauseTransition pause1= new PauseTransition(Duration.seconds(0.5));
+
+        fadeOutText.setFromValue(1.0);
+        fadeOutText.setToValue(0.0);
+        fadeInText.setFromValue(0.0);
+        fadeInText.setToValue(1.0);
+
+        fadeBG.setFromValue(1.0);
+        fadeBG.setToValue(0.0);
+//        fadeInBG.setFromValue(0.0);
+//        fadeInBG.setToValue(1.0);
+
+        pause1.play();
+
+        pause1.setOnFinished(event->{
+            fadeInText.play();
+
+        });
+
+        fadeInText.setOnFinished(event2->{
+            pauseBlackScreen.play();
+        });
+        pauseBlackScreen.setOnFinished(event3->{
+            fadeOutText.play();
+            fadeBG.play();
+        });
 
         StickHero.getSlime().setVisible(false);
         Parent FXMLRoot = FXMLLoader.load(Objects.requireNonNull(Player.class.getResource("gameOver.fxml")));
-        Scene gameOver = new Scene(FXMLRoot);
+        mainRoot.getChildren().add(FXMLRoot);
+
+        blackScreen.toFront();
+        text.toFront();
+
+        Scene gameOver = new Scene(mainRoot);
         StickHero.getStage().setScene(gameOver);
         StickHero.getStage().setFullScreen(true);
         StickHero.getStage().show();
