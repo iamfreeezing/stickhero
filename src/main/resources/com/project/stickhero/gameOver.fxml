@@ -10,44 +10,56 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.GameOver">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.stickhero.GameOver">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="407.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <ImageView fitHeight="406.0" fitWidth="592.0" layoutX="4.0" layoutY="5.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="1080.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="1920.0" />
+      <ImageView fitHeight="1080.0" fitWidth="1920.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@background.jpg" />
+            <Image url="@background_2.jpg" />
          </image>
          <effect>
             <GaussianBlur radius="3.52" />
          </effect>
       </ImageView>
-      <Button fx:id="homebutton" layoutX="327.0" layoutY="346.0" mnemonicParsing="false" onAction="#onClickHome" text="HOME" />
-      <Button fx:id="playagainbutton" layoutX="203.0" layoutY="346.0" mnemonicParsing="false" onAction="#onClickPlayAgain" text="PLAY AGAIN" />
-      <Text fill="WHITE" layoutX="179.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME OVER">
+      <Text fill="WHITE" layoutX="696.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME OVER">
          <font>
-            <Font name="Arial Black" size="36.0" />
+            <Font name="Arial Black" size="72.0" />
          </font>
       </Text>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="164.0" layoutX="158.0" layoutY="172.0" opacity="0.53" stroke="WHITE" strokeType="INSIDE" width="283.0" />
-      <Text layoutX="245.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" textAlignment="CENTER" wrappingWidth="108.01757431030273">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="500.0" layoutX="500.0" layoutY="341.0" opacity="0.53" stroke="WHITE" strokeType="INSIDE" width="880.0" />
+      <Text layoutX="868.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score" textAlignment="CENTER" wrappingWidth="130.01757431030273">
          <font>
-            <Font name="Arial" size="18.0" />
+            <Font name="Arial" size="48.0" />
          </font>
       </Text>
-      <Text layoutX="244.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best" textAlignment="CENTER" wrappingWidth="108.01757431030273">
+      <Text layoutX="879.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best" textAlignment="CENTER" wrappingWidth="108.01757431030273">
          <font>
-            <Font name="Arial" size="18.0" />
+            <Font name="Arial" size="48.0" />
          </font>
       </Text>
-      <Label fx:id="playerscore" layoutX="292.0" layoutY="213.0" text="0">
+      <Button fx:id="playagainbutton" layoutX="694.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickPlayAgain" text="PLAY AGAIN">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="homebutton" layoutX="890.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickHome" text="HOME">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label fx:id="playerscore" layoutX="926.0" layoutY="471.0" text="0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="highscore" layoutX="291.0" layoutY="285.0" text="0">
+      <Label fx:id="highscore" layoutX="927.0" layoutY="663.0" text="0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
+      <Button fx:id="exitGameButton" layoutX="1083.0" layoutY="752.0" mnemonicParsing="false" text="EXIT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
