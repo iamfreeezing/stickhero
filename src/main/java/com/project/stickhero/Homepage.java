@@ -19,5 +19,21 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Homepage {
 
+    public static void openHomepage() {
+        FXMLLoader loader = new FXMLLoader(Homepage.class.getResource("homepage.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(root);
+        StickHero.getStage().setTitle("Stick Hero");
+        StickHero.getStage().setScene(scene);
+        StickHero.getStage().setFullScreen(true);
+        StickHero.getStage().show();
+
+    }
+
 
 }

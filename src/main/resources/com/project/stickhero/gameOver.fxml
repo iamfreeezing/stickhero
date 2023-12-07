@@ -56,7 +56,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="exitGameButton" layoutX="1083.0" layoutY="752.0" mnemonicParsing="false" text="EXIT">
+      <Button fx:id="exitGameButton" layoutX="1083.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickingExit" text="EXIT">
          <font>
             <Font size="18.0" />
          </font>

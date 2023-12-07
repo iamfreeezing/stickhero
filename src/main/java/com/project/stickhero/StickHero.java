@@ -1,5 +1,6 @@
 package com.project.stickhero;
-import javafx.event.Event;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.application.Application;
@@ -28,18 +29,17 @@ import javafx.scene.text.Font;
 import javafx.animation.*;
 import javafx.scene.control.Label;
 
-
-import static com.project.stickhero.Player.onSlimeTranslationDone;
-
 //main controller file
 
 public class StickHero extends Application {
-    private Stage stage;
+    private static Stage stage;
     public static Scene scene;
+    private static Parent gamePlayingFXML;
+    private static ImageView gamePlayingBackground;
 
-    private Pane appRoot = new Pane();          //these roots are only for gamePlaying page
-    private static Pane gameRoot = new Pane();
-    private Pane uiRoot = new Pane();
+    private static Pane appRoot;          //these roots are only for gamePlaying page
+    private static Pane gameRoot;
+    private static Pane uiRoot;
     private static boolean isSpacePressed = false;
 
     @FXML
@@ -52,7 +52,7 @@ public class StickHero extends Application {
     private static ImageView slime;
     private static ImageView slimeFriend;
     private static Rectangle stick;
-    private Double idealStickLength;
+    private static Double idealStickLength;
     private static Double distanceToTravel;
     private static boolean translateDone;
     private static Random random = new Random();
@@ -62,6 +62,8 @@ public class StickHero extends Application {
 
     private static ImageView Heart;
     private static boolean collectedHeart=false;
+    private static Pane alternateRoot = new Pane();
+    public static boolean isHeartAdded = false;
 
     //homepage buttons
     @FXML
@@ -86,39 +88,78 @@ public class StickHero extends Application {
         }
     };
 
+    public static BoundingBox editBounds(ImageView object, Double reduction) {
+        Bounds initialBounds = object.getBoundsInParent();
+        return new BoundingBox(initialBounds.getMinX() - 2.0, initialBounds.getMinY() + reduction, initialBounds.getMaxX() - initialBounds.getMinX() - 4.0, initialBounds.getMaxY() - 2*reduction - initialBounds.getMinY());
+    }
+
     public static void checkCollision(ImageView player, ImageView target){
-        if(player.getBoundsInParent().intersects(target.getBoundsInParent())){
-            collectedHeart=true;
-            Heart.setVisible(false);
+        if (isHeartAdded) {
+            Bounds playerNewBounds = editBounds(player, 5.0);
+            Bounds targetNewBounds = editBounds(target, 5.0);
+            if (playerNewBounds.intersects(targetNewBounds)) {
+                collectedHeart = true;
+                Heart.setVisible(false);
+                gameRoot.getChildren().remove(Heart);
+                isHeartAdded = false;
+                if (Data.heartScore == Data.prevRoundScore) {
+                    Data.heartScore = Data.heartScore + 1;
+                    StickHero.showScore.setText(String.valueOf(Data.heartScore));
+                }
+            }
         }
     }
 
-    @FXML
-    void onPlayButtonClick(ActionEvent event) throws IOException {
+    public static void initialize() throws IOException {
 
-
-        Paint black = Color.BLACK;
-        Paint red = Color.RED;
-
-        Parent FXMLRoot = FXMLLoader.load(getClass().getResource("gamePlaying.fxml"));
-
-        //FXMLRoot is 600x400
+        gamePlayingFXML = FXMLLoader.load(StickHero.class.getResource("gamePlaying.fxml"));
 
         Image backgroundImage = new Image("file:./background_2.jpg");
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setFitHeight(1080);
         backgroundImageView.setFitWidth(1920);
+        gamePlayingBackground = backgroundImageView;
 
-        uiRoot.getChildren().add(FXMLRoot);
-        appRoot.getChildren().add(backgroundImageView);
+        appRoot = new Pane();
+        gameRoot = new Pane();
+        uiRoot = new Pane();
+
+        uiRoot.getChildren().add(gamePlayingFXML);
+        appRoot.getChildren().add(gamePlayingBackground);
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
 
+    }
+
+    public static void runGame() throws IOException {
+
+        isSpacePressed = false;
+        Data.heartScore = 0;
+        Data.prevRoundScore = 0;
+        Data.heartCounter = 0;
+        Heart = null;
+        Player.setPrevHeartNull();
+        collectedHeart = false;
+        isHeartAdded = false;
+
+        appRoot = new Pane();
+        gameRoot = new Pane();
+        uiRoot = new Pane();
+
+        uiRoot.getChildren().add(gamePlayingFXML);
+        appRoot.getChildren().add(gamePlayingBackground);
+        appRoot.getChildren().add(gameRoot);
+        appRoot.getChildren().add(uiRoot);
+
+        System.out.println(1);
+
         scene = new Scene(appRoot, 1920, 1080);
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
+        gameRoot.requestFocus();
+
+        System.out.println(2);
 
         appRoot.prefWidthProperty().bind(scene.widthProperty());
         appRoot.prefHeightProperty().bind(scene.heightProperty());
@@ -129,7 +170,7 @@ public class StickHero extends Application {
         firstPillar.setFill(Color.BLACK);
         gameRoot.getChildren().add(firstPillar);
         firstPillar.setLayoutX(0);
-        firstPillar.setLayoutY(backgroundImageView.getFitHeight()-firstPillar.getHeight());
+        firstPillar.setLayoutY(gamePlayingBackground.getFitHeight()-firstPillar.getHeight());
 
         gameRoot.getChildren().add(Pillar.generateSecondPillar());
 
@@ -139,7 +180,10 @@ public class StickHero extends Application {
         endPillar.setFill(Color.BLACK);
         gameRoot.getChildren().add(endPillar);
         endPillar.setLayoutX(1920-1920/8.5);
-        endPillar.setLayoutY(backgroundImageView.getFitHeight()-firstPillar.getHeight());
+        endPillar.setLayoutY(gamePlayingBackground.getFitHeight()-firstPillar.getHeight());
+
+        System.out.println(3);
+
 
         Text text= new Text("Press the space bar to stretch out the stick");
         text.setFont(Font.font("Arial", 36));
@@ -192,9 +236,12 @@ public class StickHero extends Application {
         AtomicReference<Integer> changingY = new AtomicReference<>((int)firstPillar.getLayoutY()); // Because can't change normal variables inside a lambda
         AtomicBoolean tempSpacePressed = new AtomicBoolean(false);
         AtomicBoolean isSPressed = new AtomicBoolean(false);
+        System.out.println(4);
 
-        scene.setOnKeyPressed(eventMain -> {
+        gameRoot.requestFocus();
+        gameRoot.setOnKeyPressed(eventMain -> {
             if (eventMain.getCode() == KeyCode.SPACE && !isSpacePressed) {
+
                 fadeout.play();
                 tempSpacePressed.set(true);
                 stick.setLayoutX(firstPillar.getWidth());
@@ -203,16 +250,18 @@ public class StickHero extends Application {
                 changingY.updateAndGet(y -> y - 12);
                 stick.setLayoutY(changingY.get());
                 stick.toFront();
+                System.out.println(5);
+
             }
-                if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
-                    isSPressed.set(true);
-                    StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 10);
-                    StickHero.getSlime().getTransforms().add(new Scale(1, -1)); // Adjust for your slime object
-                }
+            if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
+                isSPressed.set(true);
+                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 10);
+                StickHero.getSlime().getTransforms().add(new Scale(1, -1)); // Adjust for your slime object
+            }
 
         });
 
-        scene.setOnKeyReleased(eventMain -> {
+        gameRoot.setOnKeyReleased(eventMain -> {
 
             if (eventMain.getCode() == KeyCode.SPACE && tempSpacePressed.get()) {
                 isSpacePressed = true;
@@ -224,13 +273,13 @@ public class StickHero extends Application {
 
                 Stick.rotateStickM();
 
-                    if (stick.getHeight()>= idealStickLength) {
-                        Player.translateSlimeM(distanceToTravel, true);
-                    }
-                    else {
-                        distanceToTravel = stick.getHeight();
-                        Player.translateSlimeM(distanceToTravel+slime.getFitWidth(), false);
-                    }
+                if (stick.getHeight()>= idealStickLength) {
+                    Player.translateSlimeM(distanceToTravel, true);
+                }
+                else {
+                    distanceToTravel = stick.getHeight();
+                    Player.translateSlimeM(distanceToTravel+slime.getFitWidth(), false);
+                }
             }
 
             if (eventMain.getCode() == KeyCode.S && isSPressed.get() && isTranslating.get()) {
@@ -242,19 +291,23 @@ public class StickHero extends Application {
 
         });
 
+        System.out.println(6);
+
+    }
+
+    @FXML
+    void onPlayButtonClick(ActionEvent event) throws IOException {
+
+        runGame();
+
 
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("homepage.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setTitle("Stick Hero");
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        initialize();
+        StickHero.stage = stage;
+        Homepage.openHomepage();
 
     }
 
@@ -321,6 +374,10 @@ public class StickHero extends Application {
 
     public static void setCollectedHeart(boolean collectedHeart) {
         StickHero.collectedHeart = collectedHeart;
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
 
 

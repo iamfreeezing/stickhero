@@ -11,6 +11,8 @@ public class Data {
     private static int highScore=0;
 
     public static int heartScore=0;
+    public static int prevRoundScore=0;
+
 
     public static int heartCounter=0;
 
