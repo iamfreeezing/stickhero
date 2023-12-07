@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.animation.*;
+import javafx.scene.control.Label;
 
 
 import static com.project.stickhero.Player.onSlimeTranslationDone;
@@ -56,6 +57,7 @@ public class StickHero extends Application {
     private static boolean translateDone;
     private static Random random = new Random();
 
+    public static Label showScore;
 
 
     private static ImageView Heart;
@@ -146,6 +148,14 @@ public class StickHero extends Application {
         text.setLayoutX(620);
         FadeTransition fadeout= new FadeTransition(Duration.seconds(1.5),text);
         fadeout.setToValue(0.0);
+
+        showScore= new Label();
+        showScore.setText(String.valueOf(0));
+        showScore.setFont(new Font("Arial", 46));
+        showScore.setLayoutY(20);
+        showScore.setLayoutX(110);
+        showScore.setTextFill(Color.WHITE);
+        gameRoot.getChildren().add(showScore);
 
 
         Image characterImage = new Image("file:./character_green.png");
@@ -312,4 +322,6 @@ public class StickHero extends Application {
     public static void setCollectedHeart(boolean collectedHeart) {
         StickHero.collectedHeart = collectedHeart;
     }
+
+
 }

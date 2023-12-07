@@ -21,8 +21,11 @@ public class Player implements Runnable{
 
     public static void onSlimeTranslationDone() {
         if(StickHero.isCollectedHeart()){
+            
             Data.heartScore=Data.heartScore+1;
+            StickHero.showScore.setText(String.valueOf(Data.heartScore));
             StickHero.setCollectedHeart(false);
+
         }
         System.out.println(Data.heartScore);
         StickHero.getSlime().getTransforms().clear();
@@ -37,6 +40,7 @@ public class Player implements Runnable{
             StickHero.getGameRoot().getChildren().add(Data.generateHeart());
         }
         StickHero.collisionTimer.start();
+
 
     }
 public static <AnimationTimer> void translateSlimeM(Double distance, boolean success) {

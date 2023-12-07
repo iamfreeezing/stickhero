@@ -10,7 +10,7 @@ public class Data {
 
     private static int highScore=0;
 
-    public static int heartScore=-1;
+    public static int heartScore=0;
 
     public static int heartCounter=0;
 
@@ -22,7 +22,7 @@ public class Data {
 
             StickHero.setHeart(new ImageView(new Image("file:./heart.png")));;
             StickHero.getHeart().setLayoutX((StickHero.getSecondPillar().getLayoutX()+StickHero.getFirstPillar().getWidth())/2 - 20);
-            StickHero.getHeart().setLayoutY(StickHero.getFirstPillar().getLayoutY()+5);
+            StickHero.getHeart().setLayoutY(StickHero.getFirstPillar().getLayoutY()+10);
             StickHero.getHeart().setFitHeight(70);
             StickHero.getHeart().setFitWidth(70);
             StickHero.getHeart().toFront();
