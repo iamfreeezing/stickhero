@@ -7,18 +7,26 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.nio.channels.Pipe;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
 
-public class Player {
+public class Player implements Runnable{
+
+    public static double slimeXValue;
 
     public static boolean isSPressed = false;
 
     public static void onSlimeTranslationDone() {
+        if(StickHero.isCollectedHeart()){
+            Data.heartScore=Data.heartScore+1;
+            StickHero.setCollectedHeart(false);
+        }
+        System.out.println(Data.heartScore);
         StickHero.getSlime().getTransforms().clear();
-        StickHero.getSlime().setLayoutX(0);
+        StickHero.getSlime().setLayoutY(1080-StickHero.getFirstPillar().getHeight()-StickHero.getSlime().getFitHeight());
         StickHero.getSecondPillar().setTranslateX(-StickHero.getSecondPillar().getLayoutX());
         StickHero.getFirstPillar().setVisible(false);
         StickHero.setFirstPillar(StickHero.getSecondPillar());
@@ -28,15 +36,22 @@ public class Player {
         if(Data.heartCounter%2==0){
             StickHero.getGameRoot().getChildren().add(Data.generateHeart());
         }
+        StickHero.collisionTimer.start();
 
     }
 public static <AnimationTimer> void translateSlimeM(Double distance, boolean success) {
+            Runnable r= new Player();
+            Thread t1= new Thread(r);
+            //t1.start();
+
+            StickHero.getSlime().toFront();
             TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), StickHero.getSlime());
             translateTransition.setByX(distance);
             translateTransition.setCycleCount(1);
             translateTransition.setAutoReverse(false);
             translateTransition.play();
             StickHero.isTranslating.set(true);
+
 
             translateTransition.setOnFinished(event -> {
                 StickHero.isTranslating.set(false);
@@ -67,6 +82,15 @@ public static <AnimationTimer> void translateSlimeM(Double distance, boolean suc
     }
 
     public static boolean sImportant = false;
+
+    @Override
+    public void run() {
+        while(true){
+            slimeXValue=StickHero.getSlime().getLayoutX();
+            System.out.println(slimeXValue);
+        }
+
+    }
 }
 
 

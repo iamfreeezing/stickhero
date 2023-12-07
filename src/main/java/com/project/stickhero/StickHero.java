@@ -23,8 +23,10 @@ import javafx.scene.image.ImageView;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 import javafx.animation.*;
+
 
 import static com.project.stickhero.Player.onSlimeTranslationDone;
 
@@ -57,7 +59,7 @@ public class StickHero extends Application {
 
 
     private static ImageView Heart;
-
+    private static boolean collectedHeart=false;
 
     //homepage buttons
     @FXML
@@ -74,9 +76,24 @@ public class StickHero extends Application {
     }
     //homepage buttons over
 
+    static AnimationTimer collisionTimer= new AnimationTimer() {
+        @Override
+        public void handle(long l) {
+
+            checkCollision(slime, Heart);
+        }
+    };
+
+    public static void checkCollision(ImageView player, ImageView target){
+        if(player.getBoundsInParent().intersects(target.getBoundsInParent())){
+            collectedHeart=true;
+            Heart.setVisible(false);
+        }
+    }
 
     @FXML
     void onPlayButtonClick(ActionEvent event) throws IOException {
+
 
         Paint black = Color.BLACK;
         Paint red = Color.RED;
@@ -90,6 +107,7 @@ public class StickHero extends Application {
         backgroundImageView.setFitHeight(1080);
         backgroundImageView.setFitWidth(1920);
 
+        uiRoot.getChildren().add(FXMLRoot);
         appRoot.getChildren().add(backgroundImageView);
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
@@ -121,6 +139,14 @@ public class StickHero extends Application {
         endPillar.setLayoutX(1920-1920/8.5);
         endPillar.setLayoutY(backgroundImageView.getFitHeight()-firstPillar.getHeight());
 
+        Text text= new Text("Press the space bar to stretch out the stick");
+        text.setFont(Font.font("Arial", 36));
+        text.setFill(Color.WHITE);
+        text.setLayoutY(120);
+        text.setLayoutX(620);
+        FadeTransition fadeout= new FadeTransition(Duration.seconds(1.5),text);
+        fadeout.setToValue(0.0);
+
 
         Image characterImage = new Image("file:./character_green.png");
 
@@ -137,7 +163,7 @@ public class StickHero extends Application {
         slimeFriend.setLayoutY(endPillar.getLayoutY()-slimeFriend.getFitHeight()+9);
         slimeFriend.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2);
         gameRoot.getChildren().add(slimeFriend);
-
+        gameRoot.getChildren().add(text);
         TranslateTransition slimeFriendjump = new TranslateTransition(Duration.seconds(0.5), slimeFriend);
         slimeFriendjump.setByY(-50);
         slimeFriendjump.setCycleCount(Transition.INDEFINITE);
@@ -159,6 +185,7 @@ public class StickHero extends Application {
 
         scene.setOnKeyPressed(eventMain -> {
             if (eventMain.getCode() == KeyCode.SPACE && !isSpacePressed) {
+                fadeout.play();
                 tempSpacePressed.set(true);
                 stick.setLayoutX(firstPillar.getWidth());
                 changingHeight.updateAndGet(height -> height + 12);
@@ -278,4 +305,11 @@ public class StickHero extends Application {
         Heart = heart;
     }
 
+    public static boolean isCollectedHeart() {
+        return collectedHeart;
+    }
+
+    public static void setCollectedHeart(boolean collectedHeart) {
+        StickHero.collectedHeart = collectedHeart;
+    }
 }
