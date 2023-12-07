@@ -32,31 +32,36 @@
             <Font name="Arial" size="48.0" />
          </font>
       </Text>
-      <Text layoutX="879.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best" textAlignment="CENTER" wrappingWidth="108.01757431030273">
+      <Text layoutX="879.0" layoutY="551.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best" textAlignment="CENTER" wrappingWidth="108.01757431030273">
          <font>
             <Font name="Arial" size="48.0" />
          </font>
       </Text>
-      <Button fx:id="playagainbutton" layoutX="694.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickPlayAgain" text="PLAY AGAIN">
+      <Button fx:id="playagainbutton" layoutX="883.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickPlayAgain" text="PLAY AGAIN">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="homebutton" layoutX="890.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickHome" text="HOME">
+      <Button fx:id="homebutton" layoutX="684.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickHome" text="HOME">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Label fx:id="playerscore" layoutX="926.0" layoutY="471.0" text="0">
+      <Label fx:id="playerscore" layoutX="925.0" layoutY="444.0" text="0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="highscore" layoutX="927.0" layoutY="663.0" text="0">
+      <Label fx:id="highscore" layoutX="929.0" layoutY="571.0" text="0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="exitGameButton" layoutX="1083.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickingExit" text="EXIT">
+      <Button fx:id="exitGameButton" layoutX="1152.0" layoutY="752.0" mnemonicParsing="false" onAction="#onClickingExit" text="EXIT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="reviveButton" layoutX="902.0" layoutY="662.0" mnemonicParsing="false" text="REVIVE">
          <font>
             <Font size="18.0" />
          </font>
