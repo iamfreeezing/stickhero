@@ -28,6 +28,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.animation.*;
 import javafx.scene.control.Label;
+import javafx.scene.media.AudioClip;
+import java.io.File;
 
 //main controller file
 
@@ -48,8 +50,10 @@ public class StickHero extends Application {
     private static Rectangle secondPillar;
     public static AtomicBoolean isTranslating = new AtomicBoolean(false);
 
+    static Player player= Player.getInstance();
+    private static ImageView slime=player.getPlayer_ImageView();
     @FXML
-    private static ImageView slime;
+    //private static ImageView slime;
     private static ImageView slimeFriend;
     private static Rectangle stick;
     private static Double idealStickLength;
@@ -64,6 +68,8 @@ public class StickHero extends Application {
     private static boolean collectedHeart=false;
     private static Pane alternateRoot = new Pane();
     public static boolean isHeartAdded = false;
+    private static boolean isOnFirstPillar = true;
+    private static boolean isOnSecondPillar = true;
 
     //homepage buttons
     @FXML
@@ -72,6 +78,12 @@ public class StickHero extends Application {
     private Button buyCherry;
     @FXML
     private Button playbutton;
+
+    private static String bgsound = "Sakura-Girl-Peach-chosic.com_.mp3"; // Replace with your audio file path
+    private static final AudioClip backgroundSound = new AudioClip(new File(bgsound).toURI().toString());
+
+    private static String rewardfile = "mixkit-game-treasure-coin-2038.wav"; // Replace with your audio file path
+    private static final AudioClip rewardSound = new AudioClip(new File(rewardfile).toURI().toString());
     @FXML
     void adsButton(ActionEvent event) {
     }
@@ -80,11 +92,14 @@ public class StickHero extends Application {
     }
     //homepage buttons over
 
-    static AnimationTimer collisionTimer= new AnimationTimer() {
+    static AnimationTimer collisionTimer = new AnimationTimer() {
         @Override
         public void handle(long l) {
 
             checkCollision(slime, Heart);
+            checkCollisionSF(slime, firstPillar);
+            checkCollisionSS(slime, secondPillar);
+
         }
     };
 
@@ -104,10 +119,24 @@ public class StickHero extends Application {
                 isHeartAdded = false;
                 if (Data.heartScore == Data.prevRoundScore) {
                     Data.heartScore = Data.heartScore + 1;
+                    Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
                     StickHero.showScore.setText(String.valueOf(Data.heartScore));
                 }
             }
         }
+    }
+
+    public static void checkCollisionSF(ImageView player, Rectangle target) {
+        if (player.getBoundsInParent().intersects(target.getBoundsInParent())) {
+            isOnFirstPillar = true;
+        }
+        isOnFirstPillar = false;
+    }
+    public static void checkCollisionSS(ImageView player, Rectangle target) {
+        if (player.getBoundsInParent().intersects(target.getBoundsInParent())) {
+            isOnSecondPillar = true;
+        }
+        isOnSecondPillar = false;
     }
 
     public static void initialize() throws IOException {
@@ -128,14 +157,13 @@ public class StickHero extends Application {
         appRoot.getChildren().add(gamePlayingBackground);
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
+        startBackgroundSound();
 
     }
 
-    public static void runGame() throws IOException {
+    public static void runGame(boolean revive) throws IOException {
 
         isSpacePressed = false;
-        Data.heartScore = 0;
-        Data.prevRoundScore = 0;
         Data.heartCounter = 0;
         Heart = null;
         Player.setPrevHeartNull();
@@ -151,7 +179,25 @@ public class StickHero extends Application {
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
 
-        System.out.println(1);
+        if (revive) {
+
+        }
+
+        else {
+
+            Data.heartScore = 0;
+            Data.prevRoundScore = 0;
+            showScore = new Label();
+            showScore.setFont(new Font("Arial", 46));
+            showScore.setLayoutY(20);
+            showScore.setLayoutX(110);
+            showScore.setTextFill(Color.WHITE);
+            showScore.setText(String.valueOf(0));
+
+        }
+
+        gameRoot.getChildren().add(showScore);
+        Data.prevRoundScore = Data.heartScore;
 
         scene = new Scene(appRoot, 1920, 1080);
         stage.setScene(scene);
@@ -159,7 +205,6 @@ public class StickHero extends Application {
         stage.show();
         gameRoot.requestFocus();
 
-        System.out.println(2);
 
         appRoot.prefWidthProperty().bind(scene.widthProperty());
         appRoot.prefHeightProperty().bind(scene.heightProperty());
@@ -182,7 +227,6 @@ public class StickHero extends Application {
         endPillar.setLayoutX(1920-1920/8.5);
         endPillar.setLayoutY(gamePlayingBackground.getFitHeight()-firstPillar.getHeight());
 
-        System.out.println(3);
 
 
         Text text= new Text("Press the space bar to stretch out the stick");
@@ -192,14 +236,6 @@ public class StickHero extends Application {
         text.setLayoutX(620);
         FadeTransition fadeout= new FadeTransition(Duration.seconds(1.5),text);
         fadeout.setToValue(0.0);
-
-        showScore= new Label();
-        showScore.setText(String.valueOf(0));
-        showScore.setFont(new Font("Arial", 46));
-        showScore.setLayoutY(20);
-        showScore.setLayoutX(110);
-        showScore.setTextFill(Color.WHITE);
-        gameRoot.getChildren().add(showScore);
 
 
         Image characterImage = new Image("file:./character_green.png");
@@ -236,7 +272,6 @@ public class StickHero extends Application {
         AtomicReference<Integer> changingY = new AtomicReference<>((int)firstPillar.getLayoutY()); // Because can't change normal variables inside a lambda
         AtomicBoolean tempSpacePressed = new AtomicBoolean(false);
         AtomicBoolean isSPressed = new AtomicBoolean(false);
-        System.out.println(4);
 
         gameRoot.requestFocus();
         gameRoot.setOnKeyPressed(eventMain -> {
@@ -250,10 +285,9 @@ public class StickHero extends Application {
                 changingY.updateAndGet(y -> y - 12);
                 stick.setLayoutY(changingY.get());
                 stick.toFront();
-                System.out.println(5);
 
             }
-            if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
+            if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get() && !isOnSecondPillar && !isOnFirstPillar) {
                 isSPressed.set(true);
                 StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 10);
                 StickHero.getSlime().getTransforms().add(new Scale(1, -1)); // Adjust for your slime object
@@ -273,8 +307,13 @@ public class StickHero extends Application {
 
                 Stick.rotateStickM();
 
-                if (stick.getHeight()>= idealStickLength) {
+                if (stick.getHeight() >= idealStickLength && stick.getHeight() <= secondPillar.getLayoutX() + secondPillar.getWidth()) {
                     Player.translateSlimeM(distanceToTravel, true);
+                    if (Math.abs(stick.getHeight() - (secondPillar.getLayoutX() - firstPillar.getWidth() + secondPillar.getWidth() / 2)) <= 15) {
+                        Data.heartScore = Data.heartScore + 1;
+                        Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
+                        StickHero.showScore.setText(String.valueOf(Data.heartScore));
+                    }
                 }
                 else {
                     distanceToTravel = stick.getHeight();
@@ -291,14 +330,13 @@ public class StickHero extends Application {
 
         });
 
-        System.out.println(6);
 
     }
 
     @FXML
     void onPlayButtonClick(ActionEvent event) throws IOException {
 
-        runGame();
+        runGame(false);
 
 
     }
@@ -378,6 +416,16 @@ public class StickHero extends Application {
 
     public static Stage getStage() {
         return stage;
+    }
+
+    public static void startBackgroundSound(){
+        backgroundSound.play();
+    }
+    public static void stopRewardSound(){
+        rewardSound.stop();
+    }
+    public static void startRewardSound(){
+        rewardSound.play();
     }
 
 

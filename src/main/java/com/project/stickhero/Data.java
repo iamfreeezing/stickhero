@@ -9,16 +9,11 @@ import javafx.util.Duration;
 public class Data {
 
     private static int highScore=0;
-
+    private static int permanentHeartScore=0;
     public static int heartScore=0;
     public static int prevRoundScore=0;
-
-
     public static int heartCounter=0;
 
-    public int getHighScore() {
-        return highScore;
-    }
 
     public static ImageView generateHeart(){
 
@@ -37,13 +32,19 @@ public class Data {
 
     }
 
-    public static void setHighScore(int highScore) {
-        highScore = highScore;
+    public static int getHighScore() {
+        return highScore;
     }
 
+    public static void setHighScore(int highScore) {
+        Data.highScore = highScore;
+    }
 
-    public static void setPermanentCherryCount(int permanentCherryCount) {
-        permanentCherryCount = permanentCherryCount;
+    public static int getpermanentHeartScore() {
+        return permanentHeartScore;
+    }
+    public static void setpermanentHeartScore(int permanentHeartScore) {
+        Data.permanentHeartScore = permanentHeartScore;
     }
 
     public static void purchaseCherries() {

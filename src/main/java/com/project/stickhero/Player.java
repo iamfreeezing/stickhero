@@ -4,6 +4,7 @@ import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -18,10 +19,25 @@ import java.nio.channels.Pipe;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
+import java.io.File;
 
 
 
 public class Player implements Runnable{
+
+    private static Player player;
+    private ImageView Player_ImageView;
+    public static Player getInstance(){
+        if(player==null){
+            player=new Player(new ImageView(new Image("file:./character_green.png")));
+        }
+        return player;
+    }
+    private Player(ImageView iv){
+        this.Player_ImageView=iv;
+    }
 
     public static double slimeXValue;
 
@@ -37,8 +53,12 @@ public class Player implements Runnable{
     }
 
     public static void whenDead() throws IOException {
-        Pane mainRoot= new Pane();
+        if (Data.heartScore > Data.getHighScore()) {
+            Data.setHighScore(Data.heartScore);
+            System.out.println("hs:" + Data.getHighScore());
+        }
 
+        Pane mainRoot= new Pane();
         Rectangle blackScreen= new Rectangle();
         blackScreen.setHeight(1080);
         blackScreen.setWidth(1920);
@@ -94,6 +114,16 @@ public class Player implements Runnable{
         blackScreen.toFront();
         text.toFront();
 
+        Label highScore = new Label(String.valueOf(Data.getHighScore()));
+        Label currentScore = new Label(String.valueOf(Data.heartScore));
+        mainRoot.getChildren().add(highScore);
+        mainRoot.getChildren().add(currentScore);
+        highScore.setLayoutX(929);
+        highScore.setLayoutY(571);
+        currentScore.setLayoutX(929);
+        currentScore.setLayoutY(444);
+
+
         Scene gameOver = new Scene(mainRoot);
         StickHero.getStage().setScene(gameOver);
         StickHero.getStage().setFullScreen(true);
@@ -132,8 +162,7 @@ public class Player implements Runnable{
 
     }
 public static <AnimationTimer> void translateSlimeM(Double distance, boolean success) {
-            Runnable r= new Player();
-            Thread t1= new Thread(r);
+
             //t1.start();
 
             StickHero.getSlime().toFront();
@@ -153,6 +182,7 @@ public static <AnimationTimer> void translateSlimeM(Double distance, boolean suc
                     StickHero.setIsSpacePressed(false);
                 }
                 else {
+
                     StickHero.getSlime().toFront();
                     TranslateTransition translateTransitionFall = new TranslateTransition(Duration.seconds(0.5), StickHero.getSlime());
                     translateTransitionFall.setByY(StickHero.getFirstPillar().getLayoutY());
@@ -185,6 +215,13 @@ public static <AnimationTimer> void translateSlimeM(Double distance, boolean suc
             System.out.println(slimeXValue);
         }
 
+    }
+    public ImageView getPlayer_ImageView() {
+        return Player_ImageView;
+    }
+
+    public void setPlayer_ImageView(ImageView player_ImageView) {
+        Player_ImageView = player_ImageView;
     }
 }
 

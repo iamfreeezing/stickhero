@@ -15,16 +15,10 @@ public class GameOver {
     private Button exitGameButton;
 
     @FXML
-    private Label highscore;
-
-    @FXML
     private Button homebutton;
 
     @FXML
     private Button playagainbutton;
-
-    @FXML
-    private Label playerscore;
 
     @FXML
     void onClickHome(ActionEvent event) {
@@ -34,12 +28,25 @@ public class GameOver {
 
     @FXML
     void onClickPlayAgain(ActionEvent event) throws IOException {
-        StickHero.runGame();
+        StickHero.runGame(false);
 
     }
     @FXML
     void onClickingExit(ActionEvent event) throws IOException {
         StickHero.getStage().close();
+    }
+
+    @FXML
+    void onClickingRevive(ActionEvent event) throws IOException {
+        if (Data.getpermanentHeartScore() >= 10) {
+            Data.setpermanentHeartScore(Data.getpermanentHeartScore() - 10);
+            StickHero.runGame(true);
+        }
+        else {
+
+        }
+
+
     }
 
 }

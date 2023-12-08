@@ -41,26 +41,26 @@ public class Homepage {
         Text intro= new Text("This is a game of life and death.");
         intro.setFont(new Font("Arial",18));
         intro.setFill(Color.WHITE);
-        intro.setLayoutX(830);
-        intro.setLayoutY(360);
+        intro.setLayoutX(825);
+        intro.setLayoutY(480);
         intro.setOpacity(0);
 
 
         Text intro2 = new Text("Only those who struggle will ever win.");
         intro2.setFont(new Font("Arial",18));
         intro2.setFill(Color.WHITE);
-        intro2.setLayoutX(825);
+        intro2.setLayoutX(820);
         intro2.setLayoutY(480);
         intro2.setOpacity(0);
 
-        Text intro3 = new Text("Please change your resolution to 1920x1080 (100%) for a full experience.");
+        Text intro3 = new Text("Please change your resolution to 1920x1080 (100&) for the game to work properly.");
         intro3.setFont(new Font("Arial",18));
         intro3.setFill(Color.WHITE);
         intro3.setLayoutX(700);
         intro3.setLayoutY(900);
         intro3.setOpacity(0);
-
-        mainRoot.getChildren().add(root);
+        Parent finalRoot=root;
+        mainRoot.getChildren().add(finalRoot);
 
 
         FadeTransition fadeInIntro1= new FadeTransition(Duration.seconds(2),intro);
@@ -96,7 +96,6 @@ public class Homepage {
         fadeOutIntro3.setToValue(0.0);
         fadeInIntro3.setFromValue(0.0);
         fadeInIntro3.setToValue(1.0);
-
 
         pause0.play();
 
@@ -138,7 +137,11 @@ public class Homepage {
 
         fadeOutIntro3.setOnFinished(event9->{
             fadeBlackScreen.play();
+            finalRoot.toFront();
         });
+//        fadeBlackScreen.setOnFinished(event10->{
+//            StickHero.startBackgroundSound();
+//        });
 
 
         Scene scene = new Scene(mainRoot);
