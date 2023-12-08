@@ -65,5 +65,15 @@
             <Font name="Arial" size="16.0" />
          </font>
       </Text>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="WHITE" height="66.0" layoutX="1470.0" layoutY="933.0" opacity="0.32" stroke="BLACK" strokeType="INSIDE" width="159.0">
+         <effect>
+            <Reflection />
+         </effect>
+      </Rectangle>
+      <ImageView fitHeight="81.0" fitWidth="80.0" layoutX="1463.0" layoutY="926.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@heart.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

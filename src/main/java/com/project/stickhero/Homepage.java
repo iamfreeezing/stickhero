@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Homepage {
+    private static Label permanentHeartCount=new Label(String.valueOf(Data.getpermanentHeartScore()));
 
     public static void openHomepage() {
         FXMLLoader loader = new FXMLLoader(Homepage.class.getResource("homepage.fxml"));
@@ -56,7 +58,7 @@ public class Homepage {
         Text intro3 = new Text("Please change your resolution to 1920x1080 (100&) for the game to work properly.");
         intro3.setFont(new Font("Arial",18));
         intro3.setFill(Color.WHITE);
-        intro3.setLayoutX(700);
+        intro3.setLayoutX(650);
         intro3.setLayoutY(900);
         intro3.setOpacity(0);
         Parent finalRoot=root;
@@ -138,14 +140,23 @@ public class Homepage {
         fadeOutIntro3.setOnFinished(event9->{
             fadeBlackScreen.play();
             finalRoot.toFront();
+            mainRoot.getChildren().add(permanentHeartCount);
+            permanentHeartCount.toFront();
         });
 //        fadeBlackScreen.setOnFinished(event10->{
 //            StickHero.startBackgroundSound();
 //        });
 
 
+
+
+        permanentHeartCount.setLayoutX(1570);
+        permanentHeartCount.setLayoutY(936);
+        permanentHeartCount.setTextFill(Color.WHITE);
+        permanentHeartCount.setFont(new Font("Arial",50));
         Scene scene = new Scene(mainRoot);
         blackScreen.toFront();
+
         StickHero.getStage().setTitle("Stick Hero");
         StickHero.getStage().setScene(scene);
         StickHero.getStage().setFullScreenExitHint("");
