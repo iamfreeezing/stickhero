@@ -34,13 +34,13 @@ public class Stick {
                             Data.heartScore = Data.heartScore + 1;
                             Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
                             StickHero.showScore.setText(String.valueOf(Data.heartScore));
-
+                            StickHero.isPerfectStick = true;
                             perfectLength.play();
                             Text popUp= new Text("Perfect!");
                             popUp.setFont(new Font("Arial",48));
                             StickHero.getGameRoot().getChildren().add(popUp);
                             popUp.setFill(Color.WHITE);
-                            popUp.setLayoutX(950);
+                            popUp.setLayoutX(850);
                             popUp.setLayoutY(200);
                             FadeTransition FadeINpopUp= new FadeTransition(Duration.seconds(0.5),popUp);
                             FadeTransition FadeoutpopUp= new FadeTransition(Duration.seconds(0.5),popUp);

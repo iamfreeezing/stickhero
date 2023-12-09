@@ -79,6 +79,7 @@ public class StickHero extends Application {
     private static boolean wrongOrientation = false;
     static AtomicBoolean isSPressed = new AtomicBoolean(false);
     private static boolean bgSoundOn = false;
+    public static boolean isPerfectStick = false;
 
     //homepage buttons
     @FXML
@@ -121,7 +122,7 @@ public class StickHero extends Application {
     private static String rewardfile = "mixkit-game-treasure-coin-2038.wav";
     private static final AudioClip rewardSound = new AudioClip(new File(rewardfile).toURI().toString());
 
-    static AnimationTimer collisionTimer = new AnimationTimer() {
+    public static AnimationTimer collisionTimer = new AnimationTimer() {
         @Override
         public void handle(long l) {
 
@@ -140,18 +141,19 @@ public class StickHero extends Application {
             Bounds playerNewBounds = editBounds(player, 5.0);
             Bounds targetNewBounds = editBounds(target, 5.0);
             if (playerNewBounds.intersects(targetNewBounds)) {
+                collisionTimer.stop();
                 collectedHeart = true;
                 Heart.setVisible(false);
                 gameRoot.getChildren().remove(Heart);
                 isHeartAdded = false;
-                if (Data.heartScore == Data.prevRoundScore) {
+//                if (Data.heartScore == Data.prevRoundScore) {
                     Data.heartScore = Data.heartScore + 1;
                     Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
                     StickHero.showScore.setText(String.valueOf(Data.heartScore));
                     Text message= new Text("You caught my heart!");
                     message.setFill(Color.WHITE);
                     message.setFont(new Font("Arial",30));
-                    message.setLayoutX(1920-1920/8.5-200);
+                    message.setLayoutX(1920-1920/8.5+300);
                     message.setLayoutY(300);
                     message.setOpacity(0);
                     gameRoot.getChildren().add(message);
@@ -176,9 +178,10 @@ public class StickHero extends Application {
                         gameRoot.getChildren().remove(message);
                     });
                 }
+//                }
             }
         }
-    }
+
 
     public static void initialize() throws IOException {
 
@@ -309,26 +312,6 @@ public class StickHero extends Application {
         slimeFriend.setLayoutY(endPillar.getLayoutY()-40);
 
 
-//        VBox messageBox = new VBox(8);
-//        messageBox.setPadding(new Insets(15));
-//        messageBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-//        TextArea textArea = new TextArea();
-//        textArea.setStyle("-fx-font-family: 'Courier New'; -fx-font-size: 14; -fx-text-fill: white; -fx-background-color: white; -fx-border-color: white;");
-//
-//        messageBox.getChildren().add(textArea);
-//
-//        Pane friendAndMessage = new Pane();
-//        friendAndMessage.getChildren().add(slimeFriend);
-//        friendAndMessage.getChildren().add(messageBox);
-//        messageBox.setPrefWidth(250);
-//        messageBox.setPrefHeight(140);
-//        slimeFriend.setTranslateY(messageBox.getLayoutY() + 135);
-//        slimeFriend.setTranslateX(messageBox.getLayoutX() + 250);
-
-//        friendAndMessage.setLayoutY(endPillar.getLayoutY()-200);
-//        friendAndMessage.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2 - 250);
-
-
         gameRoot.getChildren().add(slimeFriend);
 
 
@@ -352,7 +335,7 @@ public class StickHero extends Application {
         stick.toFront();
         stick.setLayoutY(firstPillar.getLayoutY());
         AtomicReference<Integer> changingHeight = new AtomicReference<>(0); // Because can't change normal variables inside a lambda
-        AtomicReference<Integer> changingY = new AtomicReference<>((int)firstPillar.getLayoutY()); // Because can't change normal variables inside a lambda
+        AtomicReference<Integer> changingY = new AtomicReference<>((int)firstPillar.getLayoutY());
         AtomicBoolean tempSpacePressed = new AtomicBoolean(false);
 
         gameRoot.requestFocus();
@@ -372,7 +355,7 @@ public class StickHero extends Application {
             if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
                 isSPressed.set(true);
                 StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 13);
-                StickHero.getSlime().getTransforms().add(new Scale(1, -1)); // Adjust for your slime object
+                StickHero.getSlime().getTransforms().add(new Scale(1, -1));
             }
 
         });
@@ -389,7 +372,7 @@ public class StickHero extends Application {
 
                 Stick.rotateStickM();
 
-                if (stick.getHeight() >= idealStickLength && stick.getHeight() <= secondPillar.getLayoutX() + secondPillar.getWidth()) {
+                if (stick.getHeight() >= idealStickLength && stick.getHeight() <= secondPillar.getLayoutX() - firstPillar.getWidth() + secondPillar.getWidth()) {
                     Player.translateSlimeM(distanceToTravel, true);
                 }
                 else {

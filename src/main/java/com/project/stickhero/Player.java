@@ -29,7 +29,7 @@ public class Player implements Runnable{
 
     private static Player player;
     private ImageView Player_ImageView;
-    private static Pane mainRoot= new Pane();
+    private static Pane mainRoot;
     public static Player getInstance(){
         if(player==null){
             player=new Player(new ImageView(new Image("file:./character_green.png")));
@@ -65,6 +65,8 @@ public class Player implements Runnable{
         blackScreen.setWidth(1920);
         blackScreen.setFill(Color.BLACK);
 //        blackScreen.setOpacity(0);
+
+        mainRoot = new Pane();
         mainRoot.getChildren().add(blackScreen);
 
         Text text= new Text("Oops......"+"\n"+"\n"+"\n"+"You'll get there, soon.");
@@ -138,7 +140,8 @@ public class Player implements Runnable{
     }
 
     public static void onSlimeTranslationDone() {
-
+        StickHero.isPerfectStick = false;
+        StickHero.collisionTimer.start();
         if(StickHero.isCollectedHeart()){
             Data.prevRoundScore=Data.prevRoundScore+1;
             StickHero.setCollectedHeart(false);
