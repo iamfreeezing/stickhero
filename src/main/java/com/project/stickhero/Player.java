@@ -116,6 +116,10 @@ public class Player implements Runnable{
 
         Label highScore = new Label(String.valueOf(Data.getHighScore()));
         Label currentScore = new Label(String.valueOf(Data.heartScore));
+        highScore.setFont(new Font("Arial",18));
+        highScore.setTextFill(Color.WHITE);
+        currentScore.setFont(new Font("Arial",18));
+        currentScore.setTextFill(Color.WHITE);
         mainRoot.getChildren().add(highScore);
         mainRoot.getChildren().add(currentScore);
         highScore.setLayoutX(929);
