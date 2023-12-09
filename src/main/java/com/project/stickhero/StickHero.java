@@ -29,6 +29,15 @@ import javafx.scene.text.Font;
 import javafx.animation.*;
 import javafx.scene.control.Label;
 import javafx.scene.media.AudioClip;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import java.io.File;
 
 //main controller file
@@ -447,6 +456,7 @@ public class StickHero extends Application {
     public static void startRewardSound(){
         rewardSound.play();
     }
+
 
 
 
