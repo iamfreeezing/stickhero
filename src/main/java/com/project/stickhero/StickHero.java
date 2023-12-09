@@ -1,9 +1,6 @@
 package com.project.stickhero;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.FadeTransition;
-import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -74,12 +72,14 @@ public class StickHero extends Application {
     private static boolean collectedHeart=false;
     private static Pane alternateRoot = new Pane();
     public static boolean isHeartAdded = false;
-    private static boolean isOnFirstPillar = false;
     private static boolean isOnSecondPillar = false;
     private static boolean wrongOrientation = false;
     static AtomicBoolean isSPressed = new AtomicBoolean(false);
     private static boolean bgSoundOn = false;
     public static boolean isPerfectStick = false;
+    public static boolean isColliding = false;
+    public static boolean onFirstPillar = false;
+    public static boolean isReverse = false;
 
     //homepage buttons
     @FXML
@@ -136,6 +136,8 @@ public class StickHero extends Application {
         return new BoundingBox(initialBounds.getMinX() - 2.0, initialBounds.getMinY() + reduction, initialBounds.getMaxX() - initialBounds.getMinX() - 4.0, initialBounds.getMaxY() - 2*reduction - initialBounds.getMinY());
     }
 
+
+
     public static void checkCollision(ImageView player, ImageView target){
         if (isHeartAdded) {
             Bounds playerNewBounds = editBounds(player, 5.0);
@@ -153,7 +155,7 @@ public class StickHero extends Application {
                     Text message= new Text("You caught my heart!");
                     message.setFill(Color.WHITE);
                     message.setFont(new Font("Arial",30));
-                    message.setLayoutX(1920-1920/8.5+300);
+                    message.setLayoutX(1920-1920/8.5-100);
                     message.setLayoutY(300);
                     message.setOpacity(0);
                     gameRoot.getChildren().add(message);
@@ -216,6 +218,8 @@ public class StickHero extends Application {
         Player.setPrevHeartNull();
         collectedHeart = false;
         isHeartAdded = false;
+        isColliding = false;
+
 
         appRoot = new Pane();
         gameRoot = new Pane();
@@ -245,6 +249,7 @@ public class StickHero extends Application {
 
         gameRoot.getChildren().add(showScore);
         Data.prevRoundScore = Data.heartScore;
+        StickHero.showScore.setText(String.valueOf(Data.heartScore));
 
         scene = new Scene(appRoot, 1920, 1080);
         stage.setScene(scene);
@@ -352,7 +357,7 @@ public class StickHero extends Application {
                 stick.toFront();
 
             }
-            if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
+            if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get() & !isColliding) {
                 isSPressed.set(true);
                 StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 13);
                 StickHero.getSlime().getTransforms().add(new Scale(1, -1));
@@ -381,7 +386,7 @@ public class StickHero extends Application {
                 }
             }
 
-            if (eventMain.getCode() == KeyCode.S && isSPressed.get() && isTranslating.get()) {
+            if (eventMain.getCode() == KeyCode.S && isSPressed.get() && isTranslating.get() && !isColliding) {
                 isSPressed.set(false);
                 wrongOrientation = false;
                 StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() - (2 * StickHero.getSlime().getFitHeight() - 13));

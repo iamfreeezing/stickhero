@@ -52,7 +52,7 @@ public class Player implements Runnable{
     public static void setPrevHeartNull() {
         prevHeart = null;
     }
-
+    public static Parent gameOverRoot;
     public static void whenDead() throws IOException {
         if (Data.heartScore > Data.getHighScore()) {
             Data.setHighScore(Data.heartScore);
@@ -119,8 +119,8 @@ public class Player implements Runnable{
         currentScore.setTextFill(Color.WHITE);
 
         StickHero.getSlime().setVisible(false);
-        Parent FXMLRoot = FXMLLoader.load(Objects.requireNonNull(Player.class.getResource("gameOver.fxml")));
-        mainRoot.getChildren().add(FXMLRoot);
+        gameOverRoot = FXMLLoader.load(Objects.requireNonNull(Player.class.getResource("gameOver.fxml")));
+        mainRoot.getChildren().add(gameOverRoot);
         mainRoot.getChildren().add(highScore);
         mainRoot.getChildren().add(currentScore);
         blackScreen.toFront();
@@ -142,6 +142,7 @@ public class Player implements Runnable{
     public static void onSlimeTranslationDone() {
         StickHero.isPerfectStick = false;
         StickHero.collisionTimer.start();
+        StickHero.isColliding = false;
         if(StickHero.isCollectedHeart()){
             Data.prevRoundScore=Data.prevRoundScore+1;
             StickHero.setCollectedHeart(false);

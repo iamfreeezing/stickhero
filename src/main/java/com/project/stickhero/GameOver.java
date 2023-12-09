@@ -51,20 +51,29 @@ public class GameOver {
         if (StickHero.readFromFile("scoreSaveFile.txt") < Data.getHighScore()) {
             StickHero.writeToFile(Data.getHighScore(), "scoreSaveFile.txt");
         }
-        StickHero.writeToFile(StickHero.readFromFile("cherrySaveFile.txt") + Data.getpermanentHeartScore(), "cherrySaveFile.txt");
+        StickHero.writeToFile(Data.getpermanentHeartScore(), "cherrySaveFile.txt");
         Runner.runTest();
         StickHero.getStage().close();
     }
 
     @FXML
     void onClickingRevive(ActionEvent event) throws IOException {
-        if (Data.getpermanentHeartScore() >= 10) {
-            Data.setpermanentHeartScore(Data.getpermanentHeartScore() - 10);
-            reviveHapened=true;
-            reviveDidntHapened=false;
-            StickHero.runGame(true);
-        }
-        else {
+
+            if (Data.heartScore>=10) {
+                Data.heartScore = Data.heartScore - 10;
+                reviveHapened=true;
+                reviveDidntHapened=false;
+                StickHero.runGame(true);
+            }
+            else if (Data.getpermanentHeartScore() + Data.heartScore >= 10) {
+                Data.heartScore = 0;
+                Data.setpermanentHeartScore(Data.getpermanentHeartScore() - (10 - Data.heartScore));
+                reviveHapened=true;
+                reviveDidntHapened=false;
+                StickHero.runGame(true);
+            }
+
+            else {
             reviveDidntHapened=true;
             reviveHapened=false;
             Rectangle cantRevivePopUp= new Rectangle();

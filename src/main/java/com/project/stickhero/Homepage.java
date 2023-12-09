@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Homepage {
-    private static Label permanentHeartCount=new Label(String.valueOf(Data.getpermanentHeartScore()));
 
     public static void openHomepage() {
+        Label permanentHeartCount=new Label(String.valueOf(Data.getpermanentHeartScore()));
         FXMLLoader loader = new FXMLLoader(Homepage.class.getResource("homepage.fxml"));
         Parent root = null;
         try {
