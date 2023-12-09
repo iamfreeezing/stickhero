@@ -55,7 +55,7 @@ public class Homepage {
         intro2.setLayoutY(480);
         intro2.setOpacity(0);
 
-        Text intro3 = new Text("Please change your resolution to 1920x1080 (100&) for the game to work properly.");
+        Text intro3 = new Text("Please change your resolution to 1920x1080 (100%) for the game to work properly.");
         intro3.setFont(new Font("Arial",18));
         intro3.setFill(Color.WHITE);
         intro3.setLayoutX(650);
@@ -146,7 +146,7 @@ public class Homepage {
 
 
 
-        permanentHeartCount.setLayoutX(1570);
+        permanentHeartCount.setLayoutX(1550);
         permanentHeartCount.setLayoutY(936);
         permanentHeartCount.setTextFill(Color.WHITE);
         permanentHeartCount.setFont(new Font("Arial",50));

@@ -57,7 +57,7 @@ public class StickHero extends Application {
 
     static Player player= Player.getInstance();
     private static ImageView slime = player.getPlayer_ImageView();
-    
+
     @FXML
     //private static ImageView slime;
     private static ImageView slimeFriend;
@@ -148,6 +148,33 @@ public class StickHero extends Application {
                     Data.heartScore = Data.heartScore + 1;
                     Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
                     StickHero.showScore.setText(String.valueOf(Data.heartScore));
+                    Text message= new Text("You caught my heart!");
+                    message.setFill(Color.WHITE);
+                    message.setFont(new Font("Arial",30));
+                    message.setLayoutX(1920-1920/8.5-200);
+                    message.setLayoutY(300);
+                    message.setOpacity(0);
+                    gameRoot.getChildren().add(message);
+                    message.toFront();
+                    FadeTransition FadeINpopUp= new FadeTransition(Duration.seconds(0.5),message);
+                    FadeTransition FadeoutpopUp= new FadeTransition(Duration.seconds(0.5),message);
+                    FadeINpopUp.setFromValue(0.0);
+                    FadeINpopUp.setToValue(1.0);
+                    FadeoutpopUp.setFromValue(1.0);
+                    FadeoutpopUp.setToValue(0.0);
+
+                    TranslateTransition textUP = new TranslateTransition(Duration.seconds(1), message);
+                    textUP.setByY(-100);
+                    textUP.setCycleCount(1);
+                    textUP.setAutoReverse(false);
+                    FadeINpopUp.play();
+                    FadeINpopUp.setOnFinished(eventi->{
+                        textUP.play();
+                        FadeoutpopUp.play();
+                    });
+                    FadeoutpopUp.setOnFinished(event2->{
+                        gameRoot.getChildren().remove(message);
+                    });
                 }
             }
         }
@@ -274,36 +301,40 @@ public class StickHero extends Application {
         gameRoot.getChildren().add(slime);
 
         slimeFriend=new ImageView(new Image("file:./character_pink.png"));
-        slimeFriend.setFitWidth(80);
-        slimeFriend.setFitHeight(80);
+        slimeFriend.setFitWidth(50);
+        slimeFriend.setFitHeight(50);
 
 
-        VBox messageBox = new VBox(8);
-        messageBox.setPadding(new Insets(15));
-        messageBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        TextArea textArea = new TextArea();
-        textArea.setStyle("-fx-font-family: 'Courier New'; -fx-font-size: 14; -fx-text-fill: white; -fx-background-color: black; -fx-border-color: white;");
-
-        messageBox.getChildren().add(textArea);
-
-        Pane friendAndMessage = new Pane();
-        friendAndMessage.getChildren().add(slimeFriend);
-        friendAndMessage.getChildren().add(messageBox);
-        messageBox.setPrefWidth(250);
-        messageBox.setPrefHeight(140);
-        slimeFriend.setTranslateY(messageBox.getLayoutY() + 135);
-        slimeFriend.setTranslateX(messageBox.getLayoutX() + 250);
-
-        friendAndMessage.setLayoutY(endPillar.getLayoutY()-200);
-        friendAndMessage.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2 - 250);
+        slimeFriend.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2);
+        slimeFriend.setLayoutY(endPillar.getLayoutY()-40);
 
 
-        gameRoot.getChildren().add(friendAndMessage);
+//        VBox messageBox = new VBox(8);
+//        messageBox.setPadding(new Insets(15));
+//        messageBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+//        TextArea textArea = new TextArea();
+//        textArea.setStyle("-fx-font-family: 'Courier New'; -fx-font-size: 14; -fx-text-fill: white; -fx-background-color: white; -fx-border-color: white;");
+//
+//        messageBox.getChildren().add(textArea);
+//
+//        Pane friendAndMessage = new Pane();
+//        friendAndMessage.getChildren().add(slimeFriend);
+//        friendAndMessage.getChildren().add(messageBox);
+//        messageBox.setPrefWidth(250);
+//        messageBox.setPrefHeight(140);
+//        slimeFriend.setTranslateY(messageBox.getLayoutY() + 135);
+//        slimeFriend.setTranslateX(messageBox.getLayoutX() + 250);
+
+//        friendAndMessage.setLayoutY(endPillar.getLayoutY()-200);
+//        friendAndMessage.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2 - 250);
+
+
+        gameRoot.getChildren().add(slimeFriend);
 
 
         gameRoot.getChildren().add(text);
 
-        TranslateTransition slimeFriendjump = new TranslateTransition(Duration.seconds(0.5), friendAndMessage);
+        TranslateTransition slimeFriendjump = new TranslateTransition(Duration.seconds(0.5), slimeFriend);
         slimeFriendjump.setByY(-50);
         slimeFriendjump.setCycleCount(Transition.INDEFINITE);
         slimeFriendjump.setAutoReverse(true);

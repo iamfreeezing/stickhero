@@ -2,7 +2,6 @@ module com.project.stickhero {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
-    requires org.testng;
     requires junit;
 
 

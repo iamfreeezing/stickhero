@@ -16,6 +16,8 @@ import java.util.Collection;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.text.FontWeight;
 
 
 public class GameOver {
@@ -71,15 +73,21 @@ public class GameOver {
             text2.setFont(new Font("System",20));
             text2.setLayoutX(740);
             text2.setLayoutY(510);
-            text2.setFill(Color.BLUE);
+            text2.setFill(Color.WHITE);
+            cantRevivePopUp.setStyle("-fx-fill: #011d36;");
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setWidth(21.0);
+            dropShadow.setHeight(21.0);
+            dropShadow.setRadius(10.0);
 
-            cantRevivePopUp.setFill(Color.WHITE);
-            cantRevive.setFill(Color.BLACK);
+           // cantRevivePopUp.setEffect(dropShadow);
+
+            cantRevive.setFill(Color.WHITE);
             cantRevivePopUp.setWidth(480);
             cantRevivePopUp.setHeight(195);
             cantRevivePopUp.setLayoutX(692);
             cantRevivePopUp.setLayoutY(372);
-            cantRevive.setFont(new Font("Arial",48));
+            cantRevive.setFont(Font.font("Arial",FontWeight.BOLD, 48));
             cantRevive.setLayoutX(848);
             cantRevive.setLayoutY(443);
             Player.getMainRoot().getChildren().add(cantRevivePopUp);
@@ -88,6 +96,7 @@ public class GameOver {
             cantRevivePopUp.toFront();
             cantRevive.toFront();
             text2.toFront();
+
             FadeTransition fadeInRectangle= new FadeTransition(Duration.seconds(0.5),cantRevivePopUp);
             FadeTransition fadeInText= new FadeTransition(Duration.seconds(0.5),cantRevive);
             FadeTransition fadeInText2= new FadeTransition(Duration.seconds(0.5),text2);

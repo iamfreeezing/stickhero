@@ -41,15 +41,15 @@ public class Stick {
                             StickHero.getGameRoot().getChildren().add(popUp);
                             popUp.setFill(Color.WHITE);
                             popUp.setLayoutX(950);
-                            popUp.setLayoutY(300);
-                            FadeTransition FadeINpopUp= new FadeTransition(Duration.seconds(0.25),popUp);
+                            popUp.setLayoutY(200);
+                            FadeTransition FadeINpopUp= new FadeTransition(Duration.seconds(0.5),popUp);
                             FadeTransition FadeoutpopUp= new FadeTransition(Duration.seconds(0.5),popUp);
                             FadeINpopUp.setFromValue(0.0);
                             FadeINpopUp.setToValue(1.0);
                             FadeoutpopUp.setFromValue(1.0);
                             FadeoutpopUp.setToValue(0.0);
 
-                            TranslateTransition textUP = new TranslateTransition(Duration.seconds(1), popUp);
+                            TranslateTransition textUP = new TranslateTransition(Duration.seconds(1.5), popUp);
                             textUP.setByY(-100);
                             textUP.setCycleCount(1);
                             textUP.setAutoReverse(false);
