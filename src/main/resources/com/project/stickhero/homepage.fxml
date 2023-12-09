@@ -47,7 +47,7 @@
          <font>
             <Font size="24.0" />
          </font></Button>
-      <Button fx:id="Ads1" blendMode="HARD_LIGHT" defaultButton="true" layoutX="91.0" layoutY="934.0" mnemonicParsing="false" onAction="#adsButton" prefHeight="46.0" prefWidth="128.0" text="Sound">
+      <Button fx:id="sound" blendMode="HARD_LIGHT" defaultButton="true" layoutX="91.0" layoutY="934.0" mnemonicParsing="false" onAction="#soundButton" prefHeight="46.0" prefWidth="128.0" text="Sound">
          <effect>
             <Reflection fraction="0.76" topOpacity="0.42" />
          </effect>

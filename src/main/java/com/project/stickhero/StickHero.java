@@ -68,37 +68,59 @@ public class StickHero extends Application {
     private static boolean collectedHeart=false;
     private static Pane alternateRoot = new Pane();
     public static boolean isHeartAdded = false;
-    private static boolean isOnFirstPillar = true;
-    private static boolean isOnSecondPillar = true;
+    private static boolean isOnFirstPillar = false;
+    private static boolean isOnSecondPillar = false;
+    private static boolean wrongOrientation = false;
+    static AtomicBoolean isSPressed = new AtomicBoolean(false);
+    private static boolean bgSoundOn = false;
+
 
     //homepage buttons
     @FXML
     private Button Ads;
+
     @FXML
     private Button buyCherry;
+
     @FXML
     private Button playbutton;
 
-    private static String bgsound = "Sakura-Girl-Peach-chosic.com_.mp3"; // Replace with your audio file path
-    private static final AudioClip backgroundSound = new AudioClip(new File(bgsound).toURI().toString());
+    @FXML
+    private Button sound;
 
-    private static String rewardfile = "mixkit-game-treasure-coin-2038.wav"; // Replace with your audio file path
-    private static final AudioClip rewardSound = new AudioClip(new File(rewardfile).toURI().toString());
     @FXML
     void adsButton(ActionEvent event) {
+
     }
+
     @FXML
     void buyCherryButton(ActionEvent event) {
+
     }
+
+    @FXML
+
+    void soundButton(ActionEvent event) {
+
+        if (bgSoundOn) {stopBackgroundSound();}
+        else {startBackgroundSound();}
+
+    }
+
     //homepage buttons over
+
+
+    private static String bgsound = "Sakura-Girl-Peach-chosic.com_.mp3";
+    private static final AudioClip backgroundSound = new AudioClip(new File(bgsound).toURI().toString());
+
+    private static String rewardfile = "mixkit-game-treasure-coin-2038.wav";
+    private static final AudioClip rewardSound = new AudioClip(new File(rewardfile).toURI().toString());
 
     static AnimationTimer collisionTimer = new AnimationTimer() {
         @Override
         public void handle(long l) {
 
             checkCollision(slime, Heart);
-            checkCollisionSF(slime, firstPillar);
-            checkCollisionSS(slime, secondPillar);
 
         }
     };
@@ -124,19 +146,6 @@ public class StickHero extends Application {
                 }
             }
         }
-    }
-
-    public static void checkCollisionSF(ImageView player, Rectangle target) {
-        if (player.getBoundsInParent().intersects(target.getBoundsInParent())) {
-            isOnFirstPillar = true;
-        }
-        isOnFirstPillar = false;
-    }
-    public static void checkCollisionSS(ImageView player, Rectangle target) {
-        if (player.getBoundsInParent().intersects(target.getBoundsInParent())) {
-            isOnSecondPillar = true;
-        }
-        isOnSecondPillar = false;
     }
 
     public static void initialize() throws IOException {
@@ -271,7 +280,6 @@ public class StickHero extends Application {
         AtomicReference<Integer> changingHeight = new AtomicReference<>(0); // Because can't change normal variables inside a lambda
         AtomicReference<Integer> changingY = new AtomicReference<>((int)firstPillar.getLayoutY()); // Because can't change normal variables inside a lambda
         AtomicBoolean tempSpacePressed = new AtomicBoolean(false);
-        AtomicBoolean isSPressed = new AtomicBoolean(false);
 
         gameRoot.requestFocus();
         gameRoot.setOnKeyPressed(eventMain -> {
@@ -287,9 +295,9 @@ public class StickHero extends Application {
                 stick.toFront();
 
             }
-            if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get() && !isOnSecondPillar && !isOnFirstPillar) {
+            if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
                 isSPressed.set(true);
-                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 10);
+                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 13  );
                 StickHero.getSlime().getTransforms().add(new Scale(1, -1)); // Adjust for your slime object
             }
 
@@ -323,7 +331,8 @@ public class StickHero extends Application {
 
             if (eventMain.getCode() == KeyCode.S && isSPressed.get() && isTranslating.get()) {
                 isSPressed.set(false);
-                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() - (2 * StickHero.getSlime().getFitHeight() - 10));
+                wrongOrientation = false;
+                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() - (2 * StickHero.getSlime().getFitHeight() - 13));
                 StickHero.getSlime().getTransforms().removeIf(transform -> transform instanceof Scale);
             }
 
@@ -420,7 +429,11 @@ public class StickHero extends Application {
 
     public static void startBackgroundSound(){
         backgroundSound.play();
+        bgSoundOn = true;
     }
+    public static void stopBackgroundSound() {
+        backgroundSound.stop();
+        bgSoundOn = false;}
     public static void stopRewardSound(){
         rewardSound.stop();
     }

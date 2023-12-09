@@ -43,7 +43,7 @@ public class GameOver {
             StickHero.runGame(true);
         }
         else {
-
+            
         }
 
 

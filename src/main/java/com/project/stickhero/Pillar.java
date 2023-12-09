@@ -29,6 +29,8 @@ public class Pillar {
         StickHero.getSecondPillar().setLayoutY(StickHero.getFirstPillar().getLayoutY());
         StickHero.getSecondPillar().setFill(Color.BLACK);
 
+        
+
         return StickHero.getSecondPillar();
     }
 

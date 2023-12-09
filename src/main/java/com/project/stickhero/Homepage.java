@@ -56,7 +56,7 @@ public class Homepage {
         Text intro3 = new Text("Please change your resolution to 1920x1080 (100&) for the game to work properly.");
         intro3.setFont(new Font("Arial",18));
         intro3.setFill(Color.WHITE);
-        intro3.setLayoutX(700);
+        intro3.setLayoutX(650);
         intro3.setLayoutY(900);
         intro3.setOpacity(0);
         Parent finalRoot=root;
@@ -139,10 +139,6 @@ public class Homepage {
             fadeBlackScreen.play();
             finalRoot.toFront();
         });
-//        fadeBlackScreen.setOnFinished(event10->{
-//            StickHero.startBackgroundSound();
-//        });
-
 
         Scene scene = new Scene(mainRoot);
         blackScreen.toFront();
