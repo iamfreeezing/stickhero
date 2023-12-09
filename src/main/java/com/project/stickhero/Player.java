@@ -165,6 +165,8 @@ public class Player implements Runnable{
         StickHero.getStick().setHeight(0);
         StickHero.getSlime().setTranslateX(-StickHero.getSlime().getLayoutX()+StickHero.getSecondPillar().getWidth()-StickHero.getSlime().getFitWidth());
         StickHero.getGameRoot().getChildren().add(Pillar.generateSecondPillar());
+//        StickHero.getGameRoot().getChildren().add(StickHero.redRectangle);
+        StickHero.redRectangle.toFront();
         if(Data.heartCounter%2==0){
             prevHeart = Data.generateHeart();
             StickHero.getGameRoot().getChildren().add(prevHeart);

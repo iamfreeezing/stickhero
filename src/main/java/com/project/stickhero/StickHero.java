@@ -48,6 +48,8 @@ public class StickHero extends Application {
     private static Rectangle firstPillar;
     private static Rectangle endPillar;
     private static Rectangle secondPillar;
+    public static Rectangle redRectangle;
+
     public static AtomicBoolean isTranslating = new AtomicBoolean(false);
 
     static Player player= Player.getInstance();
@@ -59,6 +61,7 @@ public class StickHero extends Application {
     private static Double idealStickLength;
     private static Double distanceToTravel;
     private static boolean translateDone;
+    public static boolean redVisibility;
     private static Random random = new Random();
 
     public static Label showScore;
@@ -226,7 +229,16 @@ public class StickHero extends Application {
         firstPillar.setLayoutX(0);
         firstPillar.setLayoutY(gamePlayingBackground.getFitHeight()-firstPillar.getHeight());
 
+
+        redRectangle = new Rectangle();
+        redRectangle.setFill(Color.DARKGRAY);
+        redRectangle.setWidth(20);
+        redRectangle.setHeight(6);
+        redRectangle.setVisible(false);
+        redVisibility = false;
+
         gameRoot.getChildren().add(Pillar.generateSecondPillar());
+        gameRoot.getChildren().add(redRectangle);
 
         endPillar= new Rectangle();
         endPillar.setHeight(1080/2);
@@ -317,11 +329,6 @@ public class StickHero extends Application {
 
                 if (stick.getHeight() >= idealStickLength && stick.getHeight() <= secondPillar.getLayoutX() + secondPillar.getWidth()) {
                     Player.translateSlimeM(distanceToTravel, true);
-                    if (Math.abs(stick.getHeight() - (secondPillar.getLayoutX() - firstPillar.getWidth() + secondPillar.getWidth() / 2)) <= 15) {
-                        Data.heartScore = Data.heartScore + 1;
-                        Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
-                        StickHero.showScore.setText(String.valueOf(Data.heartScore));
-                    }
                 }
                 else {
                     distanceToTravel = stick.getHeight();
@@ -440,6 +447,7 @@ public class StickHero extends Application {
     public static void startRewardSound(){
         rewardSound.play();
     }
+
 
 
 }
