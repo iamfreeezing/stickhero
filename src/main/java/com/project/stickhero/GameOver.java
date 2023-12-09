@@ -23,6 +23,10 @@ public class GameOver {
     @FXML
     private static Button exitGameButton;
 
+    private static boolean reviveHapened=false;
+
+    private static boolean reviveDidntHapened=false;
+
     @FXML
     private static Button homebutton;
 
@@ -46,6 +50,7 @@ public class GameOver {
             StickHero.writeToFile(Data.getHighScore(), "scoreSaveFile.txt");
         }
         StickHero.writeToFile(StickHero.readFromFile("cherrySaveFile.txt") + Data.getpermanentHeartScore(), "cherrySaveFile.txt");
+        Runner.runTest();
         StickHero.getStage().close();
     }
 
@@ -53,10 +58,13 @@ public class GameOver {
     void onClickingRevive(ActionEvent event) throws IOException {
         if (Data.getpermanentHeartScore() >= 10) {
             Data.setpermanentHeartScore(Data.getpermanentHeartScore() - 10);
-
+            reviveHapened=true;
+            reviveDidntHapened=false;
             StickHero.runGame(true);
         }
         else {
+            reviveDidntHapened=true;
+            reviveHapened=false;
             Rectangle cantRevivePopUp= new Rectangle();
             Text cantRevive= new Text("OH NO!");
             Text text2=new Text("It looks like you don't have enough cherries.");
@@ -127,6 +135,7 @@ public class GameOver {
     }
 
     public static Button getExitGameButton() {
+
         return exitGameButton;
     }
 
@@ -148,5 +157,21 @@ public class GameOver {
 
     public static void setPlayagainbutton(Button playagainbutton) {
         GameOver.playagainbutton = playagainbutton;
+    }
+
+    public static boolean isReviveHapened() {
+        return reviveHapened;
+    }
+
+    public static void setReviveHapened(boolean rev) {
+        reviveHapened= rev;
+    }
+
+    public static boolean isReviveDidntHapened() {
+        return reviveDidntHapened;
+    }
+
+    public static void setReviveDidntHapened(boolean reviveDidntHapened) {
+        GameOver.reviveDidntHapened = reviveDidntHapened;
     }
 }

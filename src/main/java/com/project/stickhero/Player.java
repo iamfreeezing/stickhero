@@ -123,18 +123,11 @@ public class Player implements Runnable{
         mainRoot.getChildren().add(currentScore);
         blackScreen.toFront();
         text.toFront();
-        System.out.println("2");
-//        GameOver.getHomebutton().toFront();
-//        GameOver.getExitGameButton().toFront();
-//        GameOver.getPlayagainbutton().toFront();
-        System.out.println("2");
-
 
         highScore.setLayoutX(929);
         highScore.setLayoutY(571);
         currentScore.setLayoutX(929);
         currentScore.setLayoutY(444);
-
 
         Scene gameOver = new Scene(mainRoot);
         StickHero.getStage().setScene(gameOver);
@@ -178,7 +171,6 @@ public class Player implements Runnable{
     }
 public static <AnimationTimer> void translateSlimeM(Double distance, boolean success) {
 
-            //t1.start();
 
             StickHero.getSlime().toFront();
             TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), StickHero.getSlime());
