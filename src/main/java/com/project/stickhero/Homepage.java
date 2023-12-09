@@ -23,9 +23,10 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Homepage {
-    private static Label permanentHeartCount=new Label(String.valueOf(Data.getpermanentHeartScore()));
-
+    private static Label permanentHeartCount=new Label(String.valueOf(Data.getPermanentHeartScore()));
+    private static Pane mainRoot= new Pane();
     public static void openHomepage() {
+        System.out.println(2);
         FXMLLoader loader = new FXMLLoader(Homepage.class.getResource("homepage.fxml"));
         Parent root = null;
         try {
@@ -33,7 +34,7 @@ public class Homepage {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Pane mainRoot= new Pane();
+
         Rectangle blackScreen= new Rectangle();
         blackScreen.setHeight(1080);
         blackScreen.setWidth(1920);
@@ -162,5 +163,11 @@ public class Homepage {
 
     }
 
+    public static Pane getMainRoot() {
+        return mainRoot;
+    }
 
+    public static void setMainRoot(Pane mainRoot) {
+        Homepage.mainRoot = mainRoot;
+    }
 }

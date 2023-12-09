@@ -17,7 +17,7 @@ public class Pillar {
     }
 
     public static Rectangle generateSecondPillar() {
-        Data.heartCounter = Data.heartCounter + 1;
+        Data.setHeartCounter(Data.getHeartCounter()+1);
 
         double maxSize = 2 * (1980 / 8);
         Rectangle a = new Rectangle();

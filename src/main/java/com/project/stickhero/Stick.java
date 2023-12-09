@@ -31,9 +31,9 @@ public class Stick {
 
                         //increase 20 to make it easier to get perfect length
                         if (Math.abs(StickHero.getStick().getHeight() - (StickHero.getSecondPillar().getLayoutX() - StickHero.getFirstPillar().getWidth() + StickHero.getSecondPillar().getWidth() / 2)) <= 20) {
-                            Data.heartScore = Data.heartScore + 1;
+                            Data.setHeartScore(Data.getHeartScore()+1);
                             Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
-                            StickHero.showScore.setText(String.valueOf(Data.heartScore));
+                            StickHero.showScore.setText(String.valueOf(Data.getHeartScore()));
                             StickHero.isPerfectStick = true;
                             perfectLength.play();
                             Text popUp= new Text("Perfect!");

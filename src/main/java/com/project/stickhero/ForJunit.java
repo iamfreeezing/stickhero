@@ -22,10 +22,10 @@ public class ForJunit {
     public void testHeartCounter(){   //to see how many hearts have been generated
         int a=2; // only 1 heart has been generated
         boolean b=false;
-        if(Data.heartCounter==2 || Data.heartCounter==3){
+        if(Data.getHeartCounter()==2 || Data.getHeartCounter()==3){
             b=true;
         }
-        assertTrue("Expected value should have been 2 or 3 but was "+ Data.heartCounter,b);
+        assertTrue("Expected value should have been 2 or 3 but was "+ Data.getHeartCounter(),b);
         System.out.println("test: testHeartCounter test has passed!");
 
 
@@ -52,7 +52,7 @@ public class ForJunit {
     }
     @Test
     public void testHeartScore(){
-        assertEquals(1,Data.heartScore);
+        assertEquals(1,Data.getHeartScore());
         System.out.println("test: testHeartScore test has passed!");
     }
 

@@ -1,9 +1,6 @@
 package com.project.stickhero;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.FadeTransition;
-import javafx.animation.Transition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -24,6 +22,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -94,10 +93,6 @@ public class StickHero extends Application {
     @FXML
     private Button sound;
 
-    @FXML
-    void adsButton(ActionEvent event) {
-
-    }
 
     @FXML
     void buyCherryButton(ActionEvent event) {
@@ -147,13 +142,13 @@ public class StickHero extends Application {
                 gameRoot.getChildren().remove(Heart);
                 isHeartAdded = false;
 //                if (Data.heartScore == Data.prevRoundScore) {
-                    Data.heartScore = Data.heartScore + 1;
+                    Data.setHeartScore(Data.getHeartScore()+1);
                     Data.setpermanentHeartScore(Data.getpermanentHeartScore() + 1);
-                    StickHero.showScore.setText(String.valueOf(Data.heartScore));
+                    StickHero.showScore.setText(String.valueOf(Data.getHeartScore()));
                     Text message= new Text("You caught my heart!");
                     message.setFill(Color.WHITE);
                     message.setFont(new Font("Arial",30));
-                    message.setLayoutX(1920-1920/8.5+300);
+                    message.setLayoutX(1920-1920/8.5-100);
                     message.setLayoutY(300);
                     message.setOpacity(0);
                     gameRoot.getChildren().add(message);
@@ -211,7 +206,7 @@ public class StickHero extends Application {
     public static void runGame(boolean revive) throws IOException {
 
         isSpacePressed = false;
-        Data.heartCounter = 0;
+        Data.setHeartCounter(0);
         Heart = null;
         Player.setPrevHeartNull();
         collectedHeart = false;
@@ -227,24 +222,24 @@ public class StickHero extends Application {
         appRoot.getChildren().add(uiRoot);
 
         if (revive) {
-
+            Data.setPermanentHeartScore(Data.getPermanentHeartScore()-10);
         }
 
         else {
 
-            Data.heartScore = 0;
-            Data.prevRoundScore = 0;
+            Data.setHeartScore(0);
+            Data.setPrevRoundScore(0);
             showScore = new Label();
             showScore.setFont(new Font("Arial", 46));
             showScore.setLayoutY(20);
-            showScore.setLayoutX(110);
+            showScore.setLayoutX(105);
             showScore.setTextFill(Color.WHITE);
             showScore.setText(String.valueOf(0));
 
         }
 
         gameRoot.getChildren().add(showScore);
-        Data.prevRoundScore = Data.heartScore;
+        Data.setPrevRoundScore(Data.getHeartScore());
 
         scene = new Scene(appRoot, 1920, 1080);
         stage.setScene(scene);
@@ -282,8 +277,6 @@ public class StickHero extends Application {
         gameRoot.getChildren().add(endPillar);
         endPillar.setLayoutX(1920-1920/8.5);
         endPillar.setLayoutY(gamePlayingBackground.getFitHeight()-firstPillar.getHeight());
-
-
 
         Text text= new Text("Press the space bar to stretch out the stick");
         text.setFont(Font.font("Arial", 36));
@@ -514,7 +507,66 @@ public class StickHero extends Application {
             }
         }
 
+    @FXML
+    void adsButton(ActionEvent event) {
+        Rectangle noads= new Rectangle();
+        Text text= new Text("No ADs since you're using premium!");
+        text.setFont(new Font("Arial",18));
+        text.setLayoutX(790);
+        text.setLayoutY(450);
+        text.setFill(Color.BLACK);
+        noads.setStyle("-fx-fill: #ffffff;");
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setWidth(21.0);
+        dropShadow.setHeight(21.0);
+        dropShadow.setRadius(10.0);
 
+        noads.setEffect(dropShadow);
+
+        noads.setWidth(480);
+        noads.setHeight(170);
+        noads.setLayoutX(692);
+        noads.setLayoutY(372);
+        Homepage.getMainRoot().getChildren().add(noads);
+        Homepage.getMainRoot().getChildren().add(text);
+        noads.toFront();
+        text.toFront();
+
+
+        FadeTransition fadeInRectangle= new FadeTransition(Duration.seconds(0.5),noads);
+        FadeTransition fadeInText= new FadeTransition(Duration.seconds(0.5),text);
+
+        FadeTransition fadeOutRectangle= new FadeTransition(Duration.seconds(0.5),noads);
+        FadeTransition fadeOutText= new FadeTransition(Duration.seconds(0.5),text);
+
+
+        PauseTransition pause0= new PauseTransition(Duration.seconds(3));
+        fadeInText.setFromValue(0.0);
+        fadeInText.setToValue(1.0);
+        fadeInRectangle.setFromValue(0.0);
+        fadeInRectangle.setToValue(1.0);
+
+
+        fadeOutText.setToValue(0.0);
+        fadeOutText.setFromValue(1.0);
+        fadeOutRectangle.setToValue(0.0);
+        fadeOutRectangle.setFromValue(1.0);
+
+        fadeInRectangle.play();
+        fadeInText.play();
+
+
+        fadeInText.setOnFinished(event1->{
+            pause0.play();
+        });
+
+        pause0.setOnFinished(event2->{
+            fadeOutRectangle.play();
+            fadeOutText.play();
+            Homepage.getMainRoot().getChildren().remove(text);
+            Homepage.getMainRoot().getChildren().remove(noads);
+        });
+    }
 
 
 }

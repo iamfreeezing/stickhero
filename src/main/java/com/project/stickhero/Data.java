@@ -10,9 +10,9 @@ public class Data {
 
     private static int highScore;
     private static int permanentHeartScore;
-    public static int heartScore=0;
-    public static int prevRoundScore=0;
-    public static int heartCounter=0;
+    private static int heartScore=0;
+    private static int prevRoundScore=0;
+    private static int heartCounter=0;
 
 
     public static ImageView generateHeart(){
@@ -43,6 +43,7 @@ public class Data {
     public static int getpermanentHeartScore() {
         return permanentHeartScore;
     }
+
     public static void setpermanentHeartScore(int permanentHeartScore) {
         Data.permanentHeartScore = permanentHeartScore;
     }
@@ -51,6 +52,35 @@ public class Data {
 
     }
 
+    public static int getPermanentHeartScore() {
+        return permanentHeartScore;
+    }
 
+    public static void setPermanentHeartScore(int permanentHeartScore) {
+        Data.permanentHeartScore = permanentHeartScore;
+    }
 
+    public static int getHeartScore() {
+        return heartScore;
+    }
+
+    public static void setHeartScore(int heartScore) {
+        Data.heartScore = heartScore;
+    }
+
+    public static int getPrevRoundScore() {
+        return prevRoundScore;
+    }
+
+    public static void setPrevRoundScore(int prevRoundScore) {
+        Data.prevRoundScore = prevRoundScore;
+    }
+
+    public static int getHeartCounter() {
+        return heartCounter;
+    }
+
+    public static void setHeartCounter(int heartCounter) {
+        Data.heartCounter = heartCounter;
+    }
 }

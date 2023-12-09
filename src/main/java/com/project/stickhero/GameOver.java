@@ -51,7 +51,7 @@ public class GameOver {
         if (StickHero.readFromFile("scoreSaveFile.txt") < Data.getHighScore()) {
             StickHero.writeToFile(Data.getHighScore(), "scoreSaveFile.txt");
         }
-        StickHero.writeToFile(StickHero.readFromFile("cherrySaveFile.txt") + Data.getpermanentHeartScore(), "cherrySaveFile.txt");
+        StickHero.writeToFile(StickHero.readFromFile("cherrySaveFile.txt") + Data.getHeartScore(), "cherrySaveFile.txt");
         Runner.runTest();
         StickHero.getStage().close();
     }
@@ -69,7 +69,7 @@ public class GameOver {
             reviveHapened=false;
             Rectangle cantRevivePopUp= new Rectangle();
             Text cantRevive= new Text("OH NO!");
-            Text text2=new Text("It looks like you don't have enough cherries.");
+            Text text2=new Text("It looks like you don't have enough hearts.");
             text2.setFont(new Font("System",20));
             text2.setLayoutX(740);
             text2.setLayoutY(510);

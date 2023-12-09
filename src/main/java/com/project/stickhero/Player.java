@@ -54,8 +54,8 @@ public class Player implements Runnable{
     }
 
     public static void whenDead() throws IOException {
-        if (Data.heartScore > Data.getHighScore()) {
-            Data.setHighScore(Data.heartScore);
+        if (Data.getHeartScore() > Data.getHighScore()) {
+            Data.setHighScore(Data.getHeartScore());
             System.out.println("hs:" + Data.getHighScore());
         }
 
@@ -69,10 +69,10 @@ public class Player implements Runnable{
         mainRoot = new Pane();
         mainRoot.getChildren().add(blackScreen);
 
-        Text text= new Text("Oops......"+"\n"+"\n"+"\n"+"You'll get there, soon.");
+        Text text= new Text("It's okay."+"\n"+"\n"+"\n"+"You'll get there, soon.");
         text.setFont(new Font("Arial",18));
         text.setFill(Color.WHITE);
-        text.setLayoutX(830);
+        text.setLayoutX(850);
         text.setLayoutY(440);
         text.setOpacity(0);
         mainRoot.getChildren().add(text);
@@ -112,10 +112,10 @@ public class Player implements Runnable{
         });
 
         Label highScore = new Label(String.valueOf(Data.getHighScore()));
-        Label currentScore = new Label(String.valueOf(Data.heartScore));
-        highScore.setFont(new Font("Arial",30));
+        Label currentScore = new Label(String.valueOf(Data.getHeartScore()));
+        highScore.setFont(new Font("Arial",46));
         highScore.setTextFill(Color.WHITE);
-        currentScore.setFont(new Font("Arial",30));
+        currentScore.setFont(new Font("Arial",46));
         currentScore.setTextFill(Color.WHITE);
 
         StickHero.getSlime().setVisible(false);
@@ -126,9 +126,9 @@ public class Player implements Runnable{
         blackScreen.toFront();
         text.toFront();
 
-        highScore.setLayoutX(929);
+        highScore.setLayoutX(920);
         highScore.setLayoutY(571);
-        currentScore.setLayoutX(929);
+        currentScore.setLayoutX(920);
         currentScore.setLayoutY(444);
 
         Scene gameOver = new Scene(mainRoot);
@@ -143,7 +143,7 @@ public class Player implements Runnable{
         StickHero.isPerfectStick = false;
         StickHero.collisionTimer.start();
         if(StickHero.isCollectedHeart()){
-            Data.prevRoundScore=Data.prevRoundScore+1;
+            Data.setPrevRoundScore(Data.getPrevRoundScore()+1);
             StickHero.setCollectedHeart(false);
 
         }
@@ -152,7 +152,7 @@ public class Player implements Runnable{
             StickHero.getGameRoot().getChildren().remove(prevHeart);
             prevHeart = null;
         }
-        System.out.println(Data.heartScore);
+        System.out.println(Data.getHeartScore());
         StickHero.getSlime().getTransforms().clear();
         StickHero.getSlime().setLayoutY(1080-StickHero.getFirstPillar().getHeight()-StickHero.getSlime().getFitHeight()+10);
         StickHero.getSecondPillar().setTranslateX(-StickHero.getSecondPillar().getLayoutX());
@@ -163,7 +163,7 @@ public class Player implements Runnable{
         StickHero.getGameRoot().getChildren().add(Pillar.generateSecondPillar());
 //        StickHero.getGameRoot().getChildren().add(StickHero.redRectangle);
         StickHero.redRectangle.toFront();
-        if(Data.heartCounter%2==0){
+        if(Data.getHeartCounter()%2==0){
             prevHeart = Data.generateHeart();
             StickHero.getGameRoot().getChildren().add(prevHeart);
             StickHero.isHeartAdded = true;
