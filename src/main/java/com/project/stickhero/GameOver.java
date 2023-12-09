@@ -54,29 +54,45 @@ public class GameOver {
         }
         else {
             Rectangle cantRevivePopUp= new Rectangle();
-            Text cantRevive= new Text("cant revive");
+            Text cantRevive= new Text("OH NO!");
+            Text text2=new Text("It looks like you don't have enough cherries.");
+            text2.setFont(new Font("System",20));
+            text2.setLayoutX(740);
+            text2.setLayoutY(510);
+            text2.setFill(Color.BLUE);
+
             cantRevivePopUp.setFill(Color.WHITE);
             cantRevive.setFill(Color.BLACK);
             cantRevivePopUp.setWidth(480);
-            cantRevivePopUp.setHeight(264);
+            cantRevivePopUp.setHeight(195);
             cantRevivePopUp.setLayoutX(692);
             cantRevivePopUp.setLayoutY(372);
-            cantRevive.setFont(new Font("Arial",36));
-            cantRevive.setLayoutX(850);
-            cantRevive.setLayoutY(550);
+            cantRevive.setFont(new Font("Arial",48));
+            cantRevive.setLayoutX(848);
+            cantRevive.setLayoutY(443);
             Player.getMainRoot().getChildren().add(cantRevivePopUp);
             Player.getMainRoot().getChildren().add(cantRevive);
+            Player.getMainRoot().getChildren().add(text2);
             cantRevivePopUp.toFront();
             cantRevive.toFront();
+            text2.toFront();
             FadeTransition fadeInRectangle= new FadeTransition(Duration.seconds(0.5),cantRevivePopUp);
             FadeTransition fadeInText= new FadeTransition(Duration.seconds(0.5),cantRevive);
+            FadeTransition fadeInText2= new FadeTransition(Duration.seconds(0.5),text2);
             FadeTransition fadeOutRectangle= new FadeTransition(Duration.seconds(0.5),cantRevivePopUp);
             FadeTransition fadeOutText= new FadeTransition(Duration.seconds(0.5),cantRevive);
+            FadeTransition fadeOutText2= new FadeTransition(Duration.seconds(0.5),text2);
+
             PauseTransition pause0= new PauseTransition(Duration.seconds(3));
             fadeInText.setFromValue(0.0);
             fadeInText.setToValue(1.0);
             fadeInRectangle.setFromValue(0.0);
             fadeInRectangle.setToValue(1.0);
+
+            fadeInText2.setFromValue(0.0);
+            fadeInText2.setToValue(1.0);
+            fadeOutText2.setToValue(0.0);
+            fadeOutText2.setFromValue(1.0);
 
             fadeOutText.setToValue(0.0);
             fadeOutText.setFromValue(1.0);
@@ -85,6 +101,7 @@ public class GameOver {
 
             fadeInRectangle.play();
             fadeInText.play();
+            fadeInText2.play();
 
             fadeInText.setOnFinished(event1->{
                 pause0.play();
@@ -93,8 +110,10 @@ public class GameOver {
             pause0.setOnFinished(event2->{
                 fadeOutRectangle.play();
                 fadeOutText.play();
+                fadeOutText2.play();
                 Player.getMainRoot().getChildren().remove(cantRevive);
                 Player.getMainRoot().getChildren().remove(cantRevivePopUp);
+                Player.getMainRoot().getChildren().remove(text2);
             });
 
 

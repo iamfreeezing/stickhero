@@ -77,7 +77,7 @@ public class Player implements Runnable{
 
         //FadeTransition fadeInBG= new FadeTransition(Duration.seconds(2),blackScreen);
         FadeTransition fadeInText= new FadeTransition(Duration.seconds(1),text);
-        FadeTransition fadeOutText= new FadeTransition(Duration.seconds(1),text);
+        FadeTransition fadeOutText= new FadeTransition(Duration.seconds(0.5),text);
         FadeTransition fadeBG= new FadeTransition(Duration.seconds(1),blackScreen);
 
         PauseTransition pauseBlackScreen= new PauseTransition(Duration.seconds(2));
