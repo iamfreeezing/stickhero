@@ -29,7 +29,11 @@ public class Pillar {
         StickHero.getSecondPillar().setLayoutY(StickHero.getFirstPillar().getLayoutY());
         StickHero.getSecondPillar().setFill(Color.BLACK);
 
-        
+        StickHero.redRectangle.setLayoutX(StickHero.getSecondPillar().getLayoutX() + StickHero.getSecondPillar().getWidth()/2 - 4);
+        StickHero.redRectangle.setLayoutY(StickHero.getSecondPillar().getLayoutY());
+        StickHero.redRectangle.setVisible(true);
+        StickHero.redVisibility = true;
+        StickHero.redRectangle.toFront();
 
         return StickHero.getSecondPillar();
     }
