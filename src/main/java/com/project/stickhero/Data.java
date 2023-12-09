@@ -8,8 +8,8 @@ import javafx.util.Duration;
 
 public class Data {
 
-    private static int highScore=0;
-    private static int permanentHeartScore=0;
+    private static int highScore;
+    private static int permanentHeartScore;
     public static int heartScore=0;
     public static int prevRoundScore=0;
     public static int heartCounter=0;

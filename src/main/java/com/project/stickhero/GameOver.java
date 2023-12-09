@@ -42,6 +42,10 @@ public class GameOver {
     }
     @FXML
     void onClickingExit(ActionEvent event) throws IOException {
+        if (StickHero.readFromFile("scoreSaveFile.txt") < Data.getHighScore()) {
+            StickHero.writeToFile(Data.getHighScore(), "scoreSaveFile.txt");
+        }
+        StickHero.writeToFile(StickHero.readFromFile("cherrySaveFile.txt") + Data.getpermanentHeartScore(), "cherrySaveFile.txt");
         StickHero.getStage().close();
     }
 

@@ -25,7 +25,9 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
-import java.io.IOException;
+
+import java.io.*;
+
 import javafx.scene.image.ImageView;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,7 +37,6 @@ import javafx.scene.text.Font;
 import javafx.animation.*;
 import javafx.scene.control.Label;
 import javafx.scene.media.AudioClip;
-import java.io.File;
 
 //main controller file
 
@@ -59,7 +60,8 @@ public class StickHero extends Application {
     public static AtomicBoolean isTranslating = new AtomicBoolean(false);
 
     static Player player= Player.getInstance();
-    private static ImageView slime=player.getPlayer_ImageView();
+    private static ImageView slime = player.getPlayer_ImageView();
+    
     @FXML
     //private static ImageView slime;
     private static ImageView slimeFriend;
@@ -72,7 +74,6 @@ public class StickHero extends Application {
 
     public static Label showScore;
 
-
     private static ImageView Heart;
     private static boolean collectedHeart=false;
     private static Pane alternateRoot = new Pane();
@@ -82,7 +83,6 @@ public class StickHero extends Application {
     private static boolean wrongOrientation = false;
     static AtomicBoolean isSPressed = new AtomicBoolean(false);
     private static boolean bgSoundOn = false;
-
 
     //homepage buttons
     @FXML
@@ -176,6 +176,9 @@ public class StickHero extends Application {
         appRoot.getChildren().add(gameRoot);
         appRoot.getChildren().add(uiRoot);
         startBackgroundSound();
+
+        Data.setpermanentHeartScore(readFromFile("cherrySaveFile.txt"));
+        Data.setHighScore(readFromFile("scoreSaveFile.txt"));
 
     }
 
@@ -341,7 +344,7 @@ public class StickHero extends Application {
             }
             if (eventMain.getCode() == KeyCode.S && !isSPressed.get() && isTranslating.get()) {
                 isSPressed.set(true);
-                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 13  );
+                StickHero.getSlime().setLayoutY(StickHero.getSlime().getLayoutY() + 2 * StickHero.getSlime().getFitHeight() - 13);
                 StickHero.getSlime().getTransforms().add(new Scale(1, -1)); // Adjust for your slime object
             }
 
@@ -479,6 +482,27 @@ public class StickHero extends Application {
     public static void startRewardSound(){
         rewardSound.play();
     }
+
+
+        public static int readFromFile(String filePath) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                if (line != null) {
+                    return Integer.parseInt(line);
+                }
+            } catch (IOException | NumberFormatException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+        public static void writeToFile(int value, String filePath) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                writer.write(String.valueOf(value));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 
 
