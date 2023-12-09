@@ -29,6 +29,7 @@ public class Player implements Runnable{
 
     private static Player player;
     private ImageView Player_ImageView;
+    private static Pane mainRoot= new Pane();
     public static Player getInstance(){
         if(player==null){
             player=new Player(new ImageView(new Image("file:./character_green.png")));
@@ -58,7 +59,7 @@ public class Player implements Runnable{
             System.out.println("hs:" + Data.getHighScore());
         }
 
-        Pane mainRoot= new Pane();
+
         Rectangle blackScreen= new Rectangle();
         blackScreen.setHeight(1080);
         blackScreen.setWidth(1920);
@@ -105,23 +106,30 @@ public class Player implements Runnable{
         pauseBlackScreen.setOnFinished(event3->{
             fadeOutText.play();
             fadeBG.play();
+            mainRoot.getChildren().remove(blackScreen);
         });
+
+        Label highScore = new Label(String.valueOf(Data.getHighScore()));
+        Label currentScore = new Label(String.valueOf(Data.heartScore));
+        highScore.setFont(new Font("Arial",30));
+        highScore.setTextFill(Color.WHITE);
+        currentScore.setFont(new Font("Arial",30));
+        currentScore.setTextFill(Color.WHITE);
 
         StickHero.getSlime().setVisible(false);
         Parent FXMLRoot = FXMLLoader.load(Objects.requireNonNull(Player.class.getResource("gameOver.fxml")));
         mainRoot.getChildren().add(FXMLRoot);
-
-        blackScreen.toFront();
-        text.toFront();
-
-        Label highScore = new Label(String.valueOf(Data.getHighScore()));
-        Label currentScore = new Label(String.valueOf(Data.heartScore));
-        highScore.setFont(new Font("Arial",18));
-        highScore.setTextFill(Color.WHITE);
-        currentScore.setFont(new Font("Arial",18));
-        currentScore.setTextFill(Color.WHITE);
         mainRoot.getChildren().add(highScore);
         mainRoot.getChildren().add(currentScore);
+        blackScreen.toFront();
+        text.toFront();
+        System.out.println("2");
+//        GameOver.getHomebutton().toFront();
+//        GameOver.getExitGameButton().toFront();
+//        GameOver.getPlayagainbutton().toFront();
+        System.out.println("2");
+
+
         highScore.setLayoutX(929);
         highScore.setLayoutY(571);
         currentScore.setLayoutX(929);
@@ -132,6 +140,7 @@ public class Player implements Runnable{
         StickHero.getStage().setScene(gameOver);
         StickHero.getStage().setFullScreen(true);
         StickHero.getStage().show();
+
 
     }
 
@@ -226,6 +235,14 @@ public static <AnimationTimer> void translateSlimeM(Double distance, boolean suc
 
     public void setPlayer_ImageView(ImageView player_ImageView) {
         Player_ImageView = player_ImageView;
+    }
+
+    public static Pane getMainRoot() {
+        return mainRoot;
+    }
+
+    public static void setMainRoot(Pane mainRoot) {
+        Player.mainRoot = mainRoot;
     }
 }
 
