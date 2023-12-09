@@ -1,7 +1,13 @@
 package com.project.stickhero;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -269,17 +275,43 @@ public class StickHero extends Application {
         gameRoot.getChildren().add(slime);
 
         slimeFriend=new ImageView(new Image("file:./character_pink.png"));
-        slimeFriend.setFitWidth(50);
-        slimeFriend.setFitHeight(50);
-        slimeFriend.setLayoutY(endPillar.getLayoutY()-slimeFriend.getFitHeight()+9);
-        slimeFriend.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2);
-        gameRoot.getChildren().add(slimeFriend);
+        slimeFriend.setFitWidth(80);
+        slimeFriend.setFitHeight(80);
+
+
+        VBox messageBox = new VBox(8);
+        messageBox.setPadding(new Insets(15));
+        messageBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        TextArea textArea = new TextArea();
+        textArea.setStyle("-fx-font-family: 'Courier New'; -fx-font-size: 14; -fx-text-fill: white; -fx-background-color: black; -fx-border-color: white;");
+
+        messageBox.getChildren().add(textArea);
+
+        Pane friendAndMessage = new Pane();
+        friendAndMessage.getChildren().add(slimeFriend);
+        friendAndMessage.getChildren().add(messageBox);
+        messageBox.setPrefWidth(250);
+        messageBox.setPrefHeight(140);
+        slimeFriend.setTranslateY(messageBox.getLayoutY() + 135);
+        slimeFriend.setTranslateX(messageBox.getLayoutX() + 250);
+
+        friendAndMessage.setLayoutY(endPillar.getLayoutY()-200);
+        friendAndMessage.setLayoutX(endPillar.getLayoutX()+endPillar.getWidth()/2 - 250);
+
+
+        gameRoot.getChildren().add(friendAndMessage);
+
+
         gameRoot.getChildren().add(text);
-        TranslateTransition slimeFriendjump = new TranslateTransition(Duration.seconds(0.5), slimeFriend);
+
+        TranslateTransition slimeFriendjump = new TranslateTransition(Duration.seconds(0.5), friendAndMessage);
         slimeFriendjump.setByY(-50);
         slimeFriendjump.setCycleCount(Transition.INDEFINITE);
         slimeFriendjump.setAutoReverse(true);
         slimeFriendjump.play();
+
+
+
 
         stick = new Rectangle();
         stick.setWidth(5);
