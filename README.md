@@ -1,9 +1,6 @@
 # **STICKHERO**
 
 1. Run using Intellij/Eclipse by running the StickHero.java file located at StickHero\src\main\java\com\project\stickhero.
-We are submitting our entire Intellij project as a zip, so ideally it should be open in Intellij.
-To run on cmd, compile each file and then type ‘java StickHero’
-
 
 2. **How to PLAY:**
 Press SPACE BAR to generate the stick.
