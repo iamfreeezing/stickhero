@@ -1,44 +1,69 @@
-# **STICKHERO**
+# **StickHero**
+The first project on my Github that is timeless. Created as a course-project during my 2nd year at IIIT Delhi.
+## Basic Information
 
-1. Run using Intellij/Eclipse by running the StickHero.java file located at StickHero\src\main\java\com\project\stickhero.
+**What this is:** A simple and fun game where you have to constantly reach the next pillar to survive. The idea was taken from <a href="https://youtu.be/MIxayJB89ic?si=l7oab-cQbKB1m9AM">Stickhero<a/>, however implementation varies greatly. <br>
+**Expected Users:** Anyone bored.<br>
+**Tech Stack:** JavaFX, JUnit, Maven.<br>
 
-2. **How to PLAY:**
-Press SPACE BAR to generate the stick.
-Press S key to collect hearts/flip the player upside down.
-If you cannot revive/do not want to play again, click on ‘EXIT’ to close the game.
+## Running the game
 
+1. Clone. Preferably, open the project through `Intellij IDEA`
+2. Run the `StickHero.java` file, located at `StickHero/src/main/java/com/project/stickhero`
 
-3. **The 2 Design Patterns that we have used are:**
-* Singleton: There is only one player in the game. We limited the number of players by implementing this Design Pattern.
-* Factory Method: We are continuously generating different Pillars and Hearts. Therefore, we have used 2 methods which will generate the same without asking the client for details.
-        
-4. **The scoring system is as follows:**
-* Acquired Heart: + 1 point/heart
-* Perfect Stick Length: +1 point/heart
+## Instructions for the game
 
+- **Generate stick:** Press `SPACEBAR`.
+- **Collect Hearts/Flip Player:** Press the `S` key.
+- **Exit Game:** Click on the `EXIT` button to close the game if you cannot revive or do not wish to play again.
 
-5. **Junit Tests:**
-        We have made Junit Test Cases to check the following things:
-        Attribute Data.HeartCounter: To check if hearts are being generated at the right count.
+## Warning
 
+**Everything from this point on has been written as a part of project-submission details. Reading below, mostly, is pointless.**
+<br>
 
-6. **To save HighScore:**
-The player has to click the button ‘Exit’ on the GameOver Page, only then will the score they scored will be saved and compared with the high score.
-Moreover, the high score includes the number of hearts collected + the number of perfect length sticks generated. You can use this to revive if you gather the required amount.
+## Design Patterns Used
 
-### **CLASSES & FUNCTIONALITIES:**
+- **Singleton Pattern:** Ensures only one instance of the player exists in the game.
+- **Factory Method Pattern:** Used to continuously generate different Pillars and Hearts without requiring player details.
 
+## Scoring System
 
-* STICK: Has a method to rotate the stick after it has been generated.
-* PILLAR: Used to generate pillars by implementing Factory Method.
-* PLAYER: has methods whenDead() for the aftermath of when the player dies, and 2 more methods associated with the translation of the player through the game.
-* DATA: Used to score the statistics of the game and has a method to generate hearts.
-* HOMEPAGE: Connected to the homepage.fxml file of the game, opens homepage after revival of the players.
-* GAME OVER: Connects the homepage, and the game-playing page together. Also used to revive the players.
-* STICKHERO: Contains the main flow of the game, includes rungame(), checks for collision and reads statistics from file.
-* ForJunit: Contains the JUnit Tests:
-1. testHeartCounter(): passes if the heartCounter is either 2 or 3, i.e, 1 heart has been generated.
-2. wontRevive(): passes if the player does not revive.
-3. hasRevived(): passes if the player revives.
-4. SingletonDP(): to test for Singleton implementation.
-5. testHeartScore(): tests score, taken equal to 1 for this case.
+- **Acquired Heart:** +1 point per heart collected.
+- **Perfect Stick Length:** +1 point for generating a stick of perfect length.
+
+## JUnit Tests
+
+JUnit tests are implemented to verify various functionalities:
+
+1. **`testHeartCounter()`**: Passes if `heartCounter` is either 2 or 3, indicating that 1 heart has been generated.
+2. **`wontRevive()`**: Passes if the player does not revive.
+3. **`hasRevived()`**: Passes if the player successfully revives.
+4. **`SingletonDP()`**: Tests the Singleton implementation.
+5. **`testHeartScore()`**: Verifies the scoring, with a score of 1 in this case.
+
+## Saving High Score
+
+- The player’s score is saved and compared with the high score when clicking the ‘Exit’ button on the Game Over page.
+- The high score includes the number of hearts collected and the number of perfect length sticks generated. This score can be used to revive the player if the required amount is gathered.
+
+## Classes & Functionalities
+
+- **`STICK`**: Manages stick rotation after generation.
+- **`PILLAR`**: Generates pillars using the Factory Method pattern.
+- **`PLAYER`**: Contains methods such as `whenDead()` for post-death scenarios and additional methods for player movement.
+- **`DATA`**: Tracks game statistics and generates hearts.
+- **`HOMEPAGE`**: Connects to `homepage.fxml` and opens the homepage after player revival.
+- **`GAME OVER`**: Manages transitions between the homepage and game-playing page, and handles player revival.
+- **`STICKHERO`**: Contains the main game flow, including `rungame()`, collision detection, and file statistics reading.
+- **`ForJunit`**: Contains JUnit test cases:
+  - **`testHeartCounter()`**: Tests if heart count is correct.
+  - **`wontRevive()`**: Tests if the player does not revive.
+  - **`hasRevived()`**: Tests if the player successfully revives.
+  - **`SingletonDP()`**: Tests Singleton design pattern.
+  - **`testHeartScore()`**: Tests scoring functionality.
+
+## Acknowledgments
+
+- **JavaFX:** Less tutorials, however, a god-gifted game development library for beginners.
+- **JUnit**: Useful? Maybe?
